@@ -1,3 +1,53 @@
+<<<<<<< HEAD
+import Phaser from 'phaser';
+import { IonPhaser, GameInstance } from '@ion-phaser/react';
+import Scenes from './scenes';
+import { useWeb3 } from 'web3';
+import { Redirect } from 'react-router';
+
+const Main = () => {
+  const { state: { selectedGotchi } } = useWeb3();
+
+  const config: GameInstance = {
+    width: 800, //1920
+    height: 600, //1080
+    scale: {
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+    },
+    type: Phaser.AUTO,
+    scene: Scenes,
+    fps: {
+      target: 60,
+    },
+    physics: {
+      default: 'arcade',
+      arcade: {
+        debug: process.env.NODE_ENV === 'development',
+      },
+    },
+    callbacks: {
+      preBoot: (game) => {
+        game.registry.merge({
+          selectedGotchi
+        });
+      }, 
+    }
+  }
+
+  if (!selectedGotchi) {
+    return (
+      <Redirect to="/" />
+    )
+  }
+
+  return (
+    <IonPhaser initialize={true} game={config} id="phaser-app" />
+  )
+}
+
+export default Main;
+=======
 import Phaser from 'phaser';
 import { IonPhaser, GameInstance } from '@ion-phaser/react';
 import Scenes from './scenes';
@@ -46,3 +96,4 @@ const Main = () => {
 }
 
 export default Main;
+>>>>>>> 3ca44af62bf37991318ca8070c49541097633a71
