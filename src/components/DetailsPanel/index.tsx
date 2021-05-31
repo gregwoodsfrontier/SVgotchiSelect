@@ -11,23 +11,23 @@ export const DetailsPanel = ({ selectedGotchi }: Props) => {
 
   return (
     <div className={styles.detailsPanel}>
-      <h1>{selectedGotchi.name} ({selectedGotchi.tokenId.toString()})</h1>
+      <h1>{selectedGotchi.name} ({selectedGotchi.id})</h1>
       <hr />
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>⚡️</span> Energy</p>
-        <p>{selectedGotchi.modifiedNumericTraits[0]}</p>
+        <p>{selectedGotchi.withSetsNumericTraits[0]}</p>
       </div>
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>👹</span> Aggression</p>
-        <p>{selectedGotchi.modifiedNumericTraits[1]}</p>
+        <p>{selectedGotchi.withSetsNumericTraits[1]}</p>
       </div>
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>👻</span> Spookiness</p>
-        <p>{selectedGotchi.modifiedNumericTraits[2]}</p>
+        <p>{selectedGotchi.withSetsNumericTraits[2]}</p>
       </div>
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>🧠</span> Brain size</p>
-        <p>{selectedGotchi.modifiedNumericTraits[3]}</p>
+        <p>{selectedGotchi.withSetsNumericTraits[3]}</p>
       </div>
     </div>
   )

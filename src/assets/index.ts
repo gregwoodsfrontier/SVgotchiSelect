@@ -16,6 +16,7 @@ export const SUSHI2 = 'sushi2';
 export const SUSHI3 = 'sushi3';
 export const PBULLET = 'pbullet';
 export const EBULLET = 'ebullet';
+export const EXPLODE = 'explode';
 
 // Sounds
 export const BOOP = 'boop';

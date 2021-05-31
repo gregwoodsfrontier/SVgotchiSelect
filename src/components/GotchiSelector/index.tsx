@@ -56,7 +56,7 @@ export const GotchiSelector = ({ gotchis, selectGotchi, initialGotchi, maxVisibl
 
   useEffect(() => {
     if (gotchis) {
-      const index = initialGotchi ? gotchis.findIndex(gotchi => gotchi.tokenId.eq(initialGotchi.tokenId)) || 0 : 0;
+      const index = initialGotchi ? gotchis.findIndex(gotchi => gotchi.id === initialGotchi.id) || 0 : 0;
       handleSelect(index);
       const selectorIteration = index + 1 - maxVisible < 0 ? 0 : index + 1 - maxVisible;
       setCurrentIteration(selectorIteration)
