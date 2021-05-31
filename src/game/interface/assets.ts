@@ -8,7 +8,7 @@ export enum AssetType
     Gotchi = "gotchi",
     Galaxy = 'galaxy',
     SushiBoss = "sushiBoss",
-    Kaboom = "kaboom",
+    Explode = "explode",
     Gem = 'gem'
 }
 
