@@ -3,6 +3,7 @@ import WebFontFile from './webFontFile';
 import * as KEYS from 'assets';
 import { AavegotchiGameObject, AavegotchiObject } from 'types';
 import {SceneKeys} from '../consts/SceneKeys'
+import {AssetType} from '../interface/assets'
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -65,17 +66,17 @@ const assets: Array<Asset | SpritesheetAsset> = [
     type: 'IMAGE',
   },
   {
-    key: KEYS.PBULLET,
+    key: AssetType.Bullet,
     src: 'assets/images/bullet.png',
     type: 'IMAGE',
   },
   {
-    key: KEYS.EBULLET,
+    key: AssetType.EnemyBullet,
     src: 'assets/images/enemy-bullet.png',
     type: 'IMAGE',
   },
   {
-    key: KEYS.SUSHI1,
+    key: AssetType.SushiLv1,
     src: 'assets/images/sushiLv1Sht.png',
     type: 'SPRITESHEET',
     data: {
@@ -84,7 +85,7 @@ const assets: Array<Asset | SpritesheetAsset> = [
     }
   },
   {
-    key: KEYS.SUSHI2,
+    key: AssetType.SushiLv2,
     src: 'assets/images/sushiLv2Sht.png',
     type: 'SPRITESHEET',
     data: {
@@ -93,7 +94,7 @@ const assets: Array<Asset | SpritesheetAsset> = [
     }
   },
   {
-    key: KEYS.SUSHI3,
+    key: AssetType.SushiLv3,
     src: 'assets/images/sushiLv3Sht.png',
     type: 'SPRITESHEET',
     data: {
@@ -102,7 +103,7 @@ const assets: Array<Asset | SpritesheetAsset> = [
     }
   },
   {
-    key: KEYS.EXPLODE,
+    key: AssetType.Explode,
     src: 'assets/images/explode.png',
     type: 'SPRITESHEET',
     data: {
@@ -173,7 +174,7 @@ export class BootScene extends Phaser.Scene {
       'filecomplete',
       (key: string) => {
         if (key === 'PLAYER') {
-          this.scene.start(SceneKeys.TitleScene)
+          this.scene.start(SceneKeys.TitleScene, {selectedGotchi: this.gotchi})
         }
         if (this.loadIndex === assets.length && this.gotchi) {
           this.loadInGotchiSpritesheet(this.gotchi)

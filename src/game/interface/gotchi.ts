@@ -7,11 +7,12 @@ export default class Gotchi extends Phaser.GameObjects.Sprite
     spk?: number = 50 //spooky
     brn?: number = 50//brian
 
-    constructor(scene:Phaser.Scene, x: number, y: number)
+    constructor(scene:Phaser.Scene, x: number, y: number, key: string)
     {
-        super(scene, x, y, AssetType.Gotchi);
+        super(scene, x, y, key);
         this.scene.physics.world.enable(this);
         (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
+        this.setScale(0.5);
     }
 
     setTraits(_nrg: number, _agg: number, _spk: number, _brn: number)

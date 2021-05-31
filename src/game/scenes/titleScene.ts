@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { SceneKeys } from '../consts/SceneKeys';
 import blinkText from '../interface/blinkText'
 //import WebFontFile from './webFontFile'
+import { AavegotchiGameObject } from 'types';
 
 const retro = {
     fontFamily: '"Press Start 2P"', 
@@ -16,9 +17,15 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export default class TitleScene extends Phaser.Scene
 {
+    selectedGotchi?: AavegotchiGameObject;
+
     constructor() {
         super(sceneConfig);
     }
+
+    init = (data: { selectedGotchi: AavegotchiGameObject }): void => {
+        this.selectedGotchi = data.selectedGotchi;
+    };
     
     create()
     {
@@ -48,7 +55,7 @@ export default class TitleScene extends Phaser.Scene
             (cam, effect) =>
             {
                 //this.scene.start(SceneKeys.GameOverScene);
-                this.scene.start(SceneKeys.GameScene);
+                this.scene.start(SceneKeys.GameScene, { selectedGotchi: this.selectedGotchi });
             })
     }
 }

@@ -11,6 +11,7 @@ import { ScoreManager } from "../interface/manager/scoreManager";
 import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
 import Gotchi from "../interface/gotchi";
+import { AavegotchiGameObject } from 'types';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -55,11 +56,17 @@ export class GameScene extends Phaser.Scene {
 
     //debug use
     IsShown: boolean = false
-    info!: Phaser.GameObjects.Text
+    info?: Phaser.GameObjects.Text
+
+    selectedGotchi?: AavegotchiGameObject;
 
     constructor() {
         super(sceneConfig);
     }
+
+    init = (data: { selectedGotchi: AavegotchiGameObject }): void => {
+        this.selectedGotchi = data.selectedGotchi;
+    };
 
     create() {
 
@@ -77,16 +84,19 @@ export class GameScene extends Phaser.Scene {
         })
         this.escapeTheFud.play()
 
-        this.gotchi = new Gotchi(this, 400, 525)
+        this.gotchi = new Gotchi(this, 400, 525, this.selectedGotchi?.spritesheetKey as string);
+        this.gotchi.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers(this.selectedGotchi?.spritesheetKey || "", { start: 0, end: 1 }),
+            frameRate: 2,
+            repeat: -1,
+        });
         this.add.existing(this.gotchi)
 
-        console.log(this.gotchi)
         //this.gotchi = this.physics.add.sprite(400, 525, AssetType.Gotchi)
-        this.gotchi.setSize(43, 50)
         //this.gotchi.body.setSize(43, 50, true)
         //this.gotchi.setCollideWorldBounds(true);
-        this.gotchi.setScale(1.2);
-        //this.gotchi.play(AnimationType.GotchiFly)
+        this.gotchi.play('idle')
 
 
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -189,8 +199,8 @@ export class GameScene extends Phaser.Scene {
     // debug purpose
     private debugCall()
     {
-        this.info.setPosition(0, 410)
-        this.info.setText([
+        this.info?.setPosition(0, 410)
+        this.info?.setText([
             'player Bullet used: '+this.assetManager.bullets.getTotalUsed(),
             'player Bullet free: '+this.assetManager.bullets.getTotalFree(),
             'enemy  Bullet used: '+this.assetManager.enemyBullets.getTotalUsed(),
