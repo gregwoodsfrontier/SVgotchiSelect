@@ -9,35 +9,36 @@ export interface AavegotchiObject extends AavegotchiContractObject {
 }
 
 export interface AavegotchiContractObject {
-  collateral: string;
+  //collateral: string;
   name: string;
-  modifiedNumericTraits: number[];
+  //modifiedNumericTraits: number[];
 
   //Only in subgraph
-  // withSetsNumericTraits?: number[];
+  withSetsNumericTraits: number[];
+  id: string;
   // withSetsRarityScore?: ethers.BigNumber;
 
-  numericTraits: number[];
-  owner: string;
-  randomNumber: string;
+  // numericTraits: number[];
+  // owner: string;
+  // randomNumber: string;
   status: ethers.BigNumber;
-  tokenId: ethers.BigNumber;
-  items: ItemsAndBalances[];
-  equippedWearables: number[];
-  experience: ethers.BigNumber;
-  hauntId: ethers.BigNumber;
-  kinship: ethers.BigNumber;
-  lastInteracted: string;
-  level: ethers.BigNumber;
-  toNextLevel: ethers.BigNumber;
-  stakedAmount: ethers.BigNumber;
-  minimumStake: ethers.BigNumber;
-  usedSkillPoints: ethers.BigNumber;
-  escrow: string;
-  baseRarityScore: ethers.BigNumber;
-  modifiedRarityScore: ethers.BigNumber;
-  locked: boolean;
-  unlockTime: string;
+  // tokenId: ethers.BigNumber;
+  // items: ItemsAndBalances[];
+  // equippedWearables: number[];
+  // experience: ethers.BigNumber;
+  // hauntId: ethers.BigNumber;
+  // kinship: ethers.BigNumber;
+  // lastInteracted: string;
+  // level: ethers.BigNumber;
+  // toNextLevel: ethers.BigNumber;
+  // stakedAmount: ethers.BigNumber;
+  // minimumStake: ethers.BigNumber;
+  // usedSkillPoints: ethers.BigNumber;
+  // escrow: string;
+  // baseRarityScore: ethers.BigNumber;
+  // modifiedRarityScore: ethers.BigNumber;
+  // locked: boolean;
+  // unlockTime: string;
 }
 
 export interface ItemsAndBalances {

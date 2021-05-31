@@ -22,7 +22,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
     escapeTheFud!: Phaser.Sound.BaseSound
     state!: GameState;
-    gotchi!: Phaser.GameObjects.Sprite
+    gotchi!: Gotchi;
     animationFactory!: AnimationFactory
     scoreManager!: ScoreManager
     sushiManager!: SushiManager
@@ -85,6 +85,12 @@ export class GameScene extends Phaser.Scene {
         this.escapeTheFud.play()
 
         this.gotchi = new Gotchi(this, 400, 525, this.selectedGotchi?.spritesheetKey as string);
+        this.gotchi.setTraits(
+            this.selectedGotchi?.withSetsNumericTraits[0] as number,
+            this.selectedGotchi?.withSetsNumericTraits[1] as number,
+            this.selectedGotchi?.withSetsNumericTraits[2] as number,
+            this.selectedGotchi?.withSetsNumericTraits[3] as number,
+        )
         this.gotchi.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers(this.selectedGotchi?.spritesheetKey || "", { start: 0, end: 1 }),
