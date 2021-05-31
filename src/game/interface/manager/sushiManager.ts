@@ -129,27 +129,27 @@ export class SushiManager {
                         pushedSushi = this.lv1sushi.create(
                             this.ORIGIN_X + x * this.dx,
                             this.ORIGIN_Y + y * this.dy, 
-                            AssetType.SushiLv1)
+                            AssetType.SushiLv1, 0)
                         _sushiarmy.push(pushedSushi)
-                        pushedSushi.play(AnimationType.Sushi1Fly)
+                        //pushedSushi.play(AnimationType.Sushi1Fly)
                         break;
 
                     case 2:
                         pushedSushi = this.lv2sushi.create(
                             this.ORIGIN_X + x * this.dx,
                             this.ORIGIN_Y + y * this.dy, 
-                            AssetType.SushiLv2)
+                            AssetType.SushiLv2, 0)
                         _sushiarmy.push(pushedSushi)
-                        pushedSushi.play(AnimationType.Sushi2Fly)
+                        //pushedSushi.play(AnimationType.Sushi2Fly)
                         break;
 
                     case 3:
                         pushedSushi = this.lv3sushi.create(
                             this.ORIGIN_X + x * this.dx,
                             this.ORIGIN_Y + y * this.dy, 
-                            AssetType.SushiLv3)
+                            AssetType.SushiLv3, 0)
                         _sushiarmy.push(pushedSushi)
-                        pushedSushi.play(AnimationType.Sushi3Fly)
+                        //pushedSushi.play(AnimationType.Sushi3Fly)
                         break;
                     
                     default:
@@ -175,19 +175,19 @@ export class SushiManager {
                 case 1:                 
                     pushedSushi = this.lv1sushi.create(posx, this.ORIGIN_Y, AssetType.SushiLv1)
                     _sushiarmy.push(pushedSushi)
-                    pushedSushi.play(AnimationType.Sushi1Fly)
+                    //pushedSushi.play(AnimationType.Sushi1Fly)
                     break;
 
                 case 2:
                     pushedSushi = this.lv2sushi.create(posx, this.ORIGIN_Y, AssetType.SushiLv2)
                     _sushiarmy.push(pushedSushi)
-                    pushedSushi.play(AnimationType.Sushi2Fly)
+                    //pushedSushi.play(AnimationType.Sushi2Fly)
                     break;
 
                 case 3:
                     pushedSushi = this.lv3sushi.create(posx, this.ORIGIN_Y, AssetType.SushiLv3)
                     _sushiarmy.push(pushedSushi)
-                    pushedSushi.play(AnimationType.Sushi3Fly)
+                    //pushedSushi.play(AnimationType.Sushi3Fly)
                     break;
                 
                 default:

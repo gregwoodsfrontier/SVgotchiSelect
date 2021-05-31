@@ -12,6 +12,12 @@ import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
 import Gotchi from "../interface/gotchi";
 
+const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
+    active: false,
+    visible: false,
+    key: SceneKeys.GameScene,
+  };
+
 export class GameScene extends Phaser.Scene {
     escapeTheFud!: Phaser.Sound.BaseSound
     state!: GameState;
@@ -51,6 +57,10 @@ export class GameScene extends Phaser.Scene {
     IsShown: boolean = false
     info!: Phaser.GameObjects.Text
 
+    constructor() {
+        super(sceneConfig);
+    }
+
     create() {
 
         this.scene.run(SceneKeys.BackGround)
@@ -76,7 +86,7 @@ export class GameScene extends Phaser.Scene {
         //this.gotchi.body.setSize(43, 50, true)
         //this.gotchi.setCollideWorldBounds(true);
         this.gotchi.setScale(1.2);
-        this.gotchi.play(AnimationType.GotchiFly)
+        //this.gotchi.play(AnimationType.GotchiFly)
 
 
         this.cursors = this.input.keyboard.createCursorKeys();
