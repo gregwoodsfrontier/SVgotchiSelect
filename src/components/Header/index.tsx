@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 import globalStyles from 'theme/globalStyles.module.css';
+import { Click } from 'assets/sounds';
 import { NavLink } from "react-router-dom";
 import { useWeb3 } from 'web3';
 import { smartTrim } from 'helpers/functions';
@@ -10,6 +11,7 @@ export const Header = () => {
 
   const handleWalletClick = () => {
     if (!address) {
+      Click.play();
       connectToNetwork();
     }
   }
@@ -18,17 +20,32 @@ export const Header = () => {
     <header className={styles.header}>
       <nav className={`${globalStyles.container} ${styles.headerContent}`}>
         <ul className={styles.navContainer}>
-          <NavLink to="/" className={styles.navLink} activeClassName={styles.activeNavLink} isActive={(_, location) => {
-            if(!location) return false;
-            const {pathname} = location;
-            return pathname === "/";
-          }}>
+          <NavLink
+            onClick={() => Click.play()}
+            to="/"
+            className={styles.navLink}
+            activeClassName={styles.activeNavLink}
+            isActive={(_, location) => {
+              if(!location) return false;
+              const {pathname} = location;
+              return pathname === "/";
+            }}>
             Game
           </NavLink>
-          <NavLink to="/leaderboard" className={styles.navLink} activeClassName={styles.activeNavLink}>
+          <NavLink
+            onClick={() => Click.play()}
+            to="/leaderboard"
+            className={styles.navLink}
+            activeClassName={styles.activeNavLink}
+          >
             Leaderboard
           </NavLink>
-          <NavLink to="/settings" className={styles.navLink} activeClassName={styles.activeNavLink}>
+          <NavLink
+            onClick={() => Click.play()}
+            to="/settings"
+            className={styles.navLink}
+            activeClassName={styles.activeNavLink}
+          >
             Settings
           </NavLink>
         </ul>

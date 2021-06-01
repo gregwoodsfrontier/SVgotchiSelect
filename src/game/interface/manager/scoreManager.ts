@@ -15,15 +15,17 @@ export class ScoreManager {
   score = 0;
   l1texty = 150;
   l1textdy = 90;
-  
+  submitScore: (score: number) => void;
 
   get noMoreLives() {
     return this.glives.countActive(true) === 0;
   }
 
   constructor(private _scene: Phaser.Scene) {
+    this.highScore = _scene.game.registry.values.highscore;
     this._init();
-    this.print(); 
+    this.print();
+    this.submitScore = _scene.game.registry.values.submitScore;
   }
 
   private _init() {
@@ -45,7 +47,7 @@ export class ScoreManager {
     
     this._scene.load.addFile(new WebFontFile(this._scene.load, 'Press Start 2P'))
     this.scoreText = this._scene.add.text(10, SIZE_Y*0.01, `SCORE: 0`, normalTextConfig);
-    this.highscoreText = this._scene.add.text(10, SIZE_Y*0.075, `HIGH:  0`, normalTextConfig);
+    this.highscoreText = this._scene.add.text(10, SIZE_Y*0.075, `HIGH: ${this.highScore}`, normalTextConfig);
 
     this._setLivesText(SIZE_X, SIZE_Y, normalTextConfig);
 
@@ -118,6 +120,7 @@ export class ScoreManager {
 
   setHighScoreTextWin()
   {
+    this.submitScore(this.score);
     if (this.score > this.highScore) {
       this.highScore = this.score;
       this._scene.registry.set('highscore', this.highScore)
@@ -127,16 +130,16 @@ export class ScoreManager {
     {
       this.highscoreText.setText(`HIGH:  ${this._scene.registry.get('highscore')}`)
       this._setBigText("GAME OVER", 
-      `HIGH SCORE: ${this._scene.registry.get('highscore')}`,
+      `HIGH SCORE: ${this.highScore}`,
       "","")
       this.setRestartText();
       
     }
     else
     {
-      this.highscoreText.setText(`HIGH:  0`)
+      this.highscoreText.setText(`HIGH:  ${this.highScore}`)
       this._setBigText("GAME OVER", 
-      `HIGH SCORE: 0`,
+      `HIGH SCORE: ${this.highScore}`,
       "","")
       this.setRestartText();
     }
@@ -144,6 +147,8 @@ export class ScoreManager {
 
   setHighScoreTextLose()
   {
+    this.submitScore(this.score);
+  
     if (this.score > this.highScore) {
       this.highScore = this.score;
       this._scene.registry.set('highscore', this.highScore)
@@ -159,9 +164,9 @@ export class ScoreManager {
     }
     else
     {
-      this.highscoreText.setText(`HIGH:  0`)
+      this.highscoreText.setText(`HIGH:  ${this.highScore}`)
       this._setBigText("GAME OVER", 
-      `HIGH SCORE: 0`,
+      `HIGH SCORE: ${this.highScore}`,
       "","")
       this.setRestartText();
     }

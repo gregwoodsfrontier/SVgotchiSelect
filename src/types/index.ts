@@ -66,3 +66,14 @@ export interface ItemObject {
   totalQuantity: number;
   traitModifiers: number[];
 }
+
+export interface SubmitScoreReq {
+  name: string,
+  tokenId: string,
+}
+
+export interface HighScore {
+  tokenId: string,
+  score: number,
+  name: string,
+}

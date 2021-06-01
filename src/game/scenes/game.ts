@@ -70,6 +70,7 @@ export class GameScene extends Phaser.Scene {
     IsShown: boolean = false
     info!: Phaser.GameObjects.Text
 
+    // Callback data
     selectedGotchi?: AavegotchiGameObject;
 
     constructor() {
@@ -81,7 +82,6 @@ export class GameScene extends Phaser.Scene {
     };
 
     create() {
-
         this.scene.run(SceneKeys.BackGround)
         this.scene.sendToBack(SceneKeys.BackGround)
         this.state = GameState.Playing
