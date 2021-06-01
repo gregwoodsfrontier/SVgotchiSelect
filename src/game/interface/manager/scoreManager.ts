@@ -120,7 +120,6 @@ export class ScoreManager {
 
   setHighScoreTextWin()
   {
-    console.log('setHighScoreTextWin()');
     this.submitScore(this.score);
     if (this.score > this.highScore) {
       this.highScore = this.score;
@@ -148,7 +147,6 @@ export class ScoreManager {
 
   setHighScoreTextLose()
   {
-    console.log('setHighScoreTextWin()');
     this.submitScore(this.score);
   
     if (this.score > this.highScore) {

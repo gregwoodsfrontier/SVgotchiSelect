@@ -319,7 +319,6 @@ export class GameScene extends Phaser.Scene {
 
     private callGameOver()
     {
-        console.log('GAME OVER');
         this.state = GameState.GameOver;
         this.IsShooting = false;
         this.IsStar = false;
