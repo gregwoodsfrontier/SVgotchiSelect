@@ -114,7 +114,7 @@ export class ScoreManager {
 
   private setRestartText()
   {
-    this.restartText = this.line3Text.setText('Hit D to restart')
+    this.restartText = this.line3Text.setText('D /Click to restart')
     this.line4Text.setText('Credit to @jo0wz\n  for FUD music')
   }
 

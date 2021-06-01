@@ -64,7 +64,7 @@ export class GameScene extends Phaser.Scene {
     suBullAngle3: number = 0.4
 
     //toggle autoshoot
-    IsShooting: boolean = false
+    IsShooting: boolean = true
 
     //debug use
     IsShown: boolean = false
@@ -198,11 +198,14 @@ export class GameScene extends Phaser.Scene {
         if (this.state !== GameState.Playing)
         {
             this.physics.pause();
-            if (this.restartKey.isDown)
+            if (this.restartKey.isDown || this.p.isDown)
             {
-                //this.scene.restart()
+                /* setTimeout(() => {
+                    this.restart()
+                }, 1000); */
                 this.restart()
             }
+            
         }       
     }
 
@@ -245,8 +248,8 @@ export class GameScene extends Phaser.Scene {
         {
             modifier = _spk/100
         }
-        this.su3marker = 31 + 20* modifier
-        this.fireDelay = 1350 + 300 * modifier
+        this.su3marker = 31 + 20* modifier     // base 41
+        this.fireDelay = 1350 + 300 * modifier // base 1500
     }
     
     // use AGG to affect sushi bullet speed and angle
@@ -265,9 +268,9 @@ export class GameScene extends Phaser.Scene {
         {
             modifier = (_brn/100) * 0.2
         }
-        this.suBullSpeed = 250 * (0.9 + modifier)
-        this.suBullAngle2 = 0.3 - modifier
-        this.suBullAngle3 = 0.5 - modifier
+        this.suBullSpeed = 250 * (0.9 + modifier) // base 250
+        this.suBullAngle2 = 0.2 + modifier // base 0.3
+        this.suBullAngle3 = 0.4 + modifier // base 0.5
     }
 
     // use AGG to affect gotchi bullet rate and speed
@@ -276,18 +279,18 @@ export class GameScene extends Phaser.Scene {
         let modifier: number = 1
         if(_agg <= 1)
         {
-            modifier = 0.9
+            modifier = 0.01
         }
         else if(_agg >= 100)
         {
-            modifier = 1.1
+            modifier = 1
         }
         else
         {
-            modifier = 0.9 - (_agg/100) * 0.2
+            modifier = _agg/100
         }
-        this.gBulletSpeed = 400 * modifier
-        this.gShootPeriod = 400 * modifier
+        this.gBulletSpeed = 360 + (modifier*80) // base: 400
+        this.gShootPeriod = 360 + (modifier*80) // base: 400
     }
 
     // use NRG to affect the moving speed of gotchi and
@@ -307,8 +310,8 @@ export class GameScene extends Phaser.Scene {
         {
             modifier = _nrg
         }
-        this.gotchiSpeed = 200 + modifier
-        this.IsStarTime = 1600 + modifier*10
+        this.gotchiSpeed = 200 + modifier // base is 250
+        this.IsStarTime = 2600 - modifier*10 // base is 2100
     }
 
     private checkToIncreaseFireRate()
