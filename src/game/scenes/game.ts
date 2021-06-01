@@ -64,7 +64,7 @@ export class GameScene extends Phaser.Scene {
     suBullAngle3: number = 0.4
 
     //toggle autoshoot
-    IsShooting: boolean = false
+    IsShooting: boolean = true
 
     //debug use
     IsShown: boolean = false
@@ -162,7 +162,7 @@ export class GameScene extends Phaser.Scene {
             this.escapeTheFud.resume()
         }
         // call debug here
-        this.debugCall2();        
+        //this.debugCall2();        
 
         //when score > 10k
         this.checkToIncreaseFireRate();
@@ -198,11 +198,14 @@ export class GameScene extends Phaser.Scene {
         if (this.state !== GameState.Playing)
         {
             this.physics.pause();
-            if (this.restartKey.isDown)
+            if (this.restartKey.isDown || this.p.isDown)
             {
-                //this.scene.restart()
+                /* setTimeout(() => {
+                    this.restart()
+                }, 1000); */
                 this.restart()
             }
+            
         }       
     }
 
