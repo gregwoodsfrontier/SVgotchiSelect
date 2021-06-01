@@ -11,7 +11,7 @@ import { ScoreManager } from "../interface/manager/scoreManager";
 import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
 import Gotchi from "../interface/gotchi";
-import { AavegotchiGameObject } from 'types';
+import { AavegotchiGameObject, SubmitScoreReq, HighScore } from 'types';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -58,6 +58,7 @@ export class GameScene extends Phaser.Scene {
     IsShown: boolean = false
     info?: Phaser.GameObjects.Text
 
+    // Callback data
     selectedGotchi?: AavegotchiGameObject;
 
     constructor() {
@@ -69,7 +70,6 @@ export class GameScene extends Phaser.Scene {
     };
 
     create() {
-
         this.scene.run(SceneKeys.BackGround)
         this.scene.sendToBack(SceneKeys.BackGround)
         this.state = GameState.Playing
@@ -319,6 +319,7 @@ export class GameScene extends Phaser.Scene {
 
     private callGameOver()
     {
+        console.log('GAME OVER');
         this.state = GameState.GameOver;
         this.IsShooting = false;
         this.IsStar = false;

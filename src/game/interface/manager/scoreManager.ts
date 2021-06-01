@@ -15,7 +15,7 @@ export class ScoreManager {
   score = 0;
   l1texty = 150;
   l1textdy = 90;
-  
+  submitScore: (score: number) => void;
 
   get noMoreLives() {
     return this.glives.countActive(true) === 0;
@@ -23,7 +23,8 @@ export class ScoreManager {
 
   constructor(private _scene: Phaser.Scene) {
     this._init();
-    this.print(); 
+    this.print();
+    this.submitScore = _scene.game.registry.values.submitScore; 
   }
 
   private _init() {
@@ -118,6 +119,8 @@ export class ScoreManager {
 
   setHighScoreTextWin()
   {
+    console.log('setHighScoreTextWin()');
+    this.submitScore(this.score);
     if (this.score > this.highScore) {
       this.highScore = this.score;
       this._scene.registry.set('highscore', this.highScore)
@@ -144,6 +147,9 @@ export class ScoreManager {
 
   setHighScoreTextLose()
   {
+    console.log('setHighScoreTextWin()');
+    this.submitScore(this.score);
+  
     if (this.score > this.highScore) {
       this.highScore = this.score;
       this._scene.registry.set('highscore', this.highScore)

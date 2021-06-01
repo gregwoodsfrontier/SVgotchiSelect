@@ -1,11 +1,32 @@
 import Phaser from 'phaser';
+import { useState, useEffect } from 'react';
 import { IonPhaser, GameInstance } from '@ion-phaser/react';
 import Scenes from './scenes';
 import { useWeb3 } from 'web3';
+import { useFirebase } from 'firebase-client';
 import { Redirect } from 'react-router';
 
 const Main = () => {
   const { state: { selectedGotchi } } = useWeb3();
+  const { highscores, handleSubmitScore } = useFirebase();
+
+  const [highscore, setHighscore] = useState(0);
+
+  const submitScore = (score: number) => {
+    console.log('submitScore()')
+    if (score > highscore && selectedGotchi && handleSubmitScore) {
+      handleSubmitScore(score, { name: selectedGotchi.name, tokenId: selectedGotchi.id })
+    }
+  }
+
+  useEffect(() => {
+    if (highscores) {
+      const gotchiScore = highscores.find(score => score.tokenId === selectedGotchi?.id)
+      if (gotchiScore) {
+        setHighscore(gotchiScore.score);
+      }
+    }
+  }, [ highscores, selectedGotchi ])
 
   const config: GameInstance = {
     type: Phaser.AUTO,
@@ -29,7 +50,8 @@ const Main = () => {
     callbacks: {
       preBoot: (game) => {
         game.registry.merge({
-          selectedGotchi
+          selectedGotchi,
+          submitScore,
         });
       }, 
     }
