@@ -11,7 +11,7 @@ import { ScoreManager } from "../interface/manager/scoreManager";
 import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
 import Gotchi from "../interface/gotchi";
-import { AavegotchiGameObject, SubmitScoreReq, HighScore } from 'types';
+import { AavegotchiGameObject } from 'types';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,

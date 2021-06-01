@@ -11,51 +11,52 @@ const Main = () => {
   const { highscores, handleSubmitScore } = useFirebase();
 
   const [highscore, setHighscore] = useState(0);
+  const [ initialised, setInitialised ] = useState(true);
+  const [ config, setConfig ] = useState<GameInstance>();
 
   const submitScore = (score: number) => {
-    console.log('submitScore()')
     if (score > highscore && selectedGotchi && handleSubmitScore) {
       handleSubmitScore(score, { name: selectedGotchi.name, tokenId: selectedGotchi.id })
     }
   }
 
   useEffect(() => {
-    if (highscores) {
-      const gotchiScore = highscores.find(score => score.tokenId === selectedGotchi?.id)
-      if (gotchiScore) {
-        setHighscore(gotchiScore.score);
-      }
-    }
-  }, [ highscores, selectedGotchi ])
+    if (selectedGotchi) {
+      const gotchiScore = highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0;
+      setHighscore(gotchiScore);
 
-  const config: GameInstance = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-      backgroundColor: '0x808080',
-    physics: {
-      default: 'arcade',
-      arcade: {
-        gravity: { y: 0 }
-      }
-    },
-    scale: {
-      // mode: Phaser.Scale.FIT,
-      autoCenter: Phaser.Scale.CENTER_BOTH
-    },
-    scene: Scenes,
-    fps: {
-      target: 60,
-    },
-    callbacks: {
-      preBoot: (game) => {
-        game.registry.merge({
-          selectedGotchi,
-          submitScore,
-        });
-      }, 
+      setConfig({
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+          backgroundColor: '0x808080',
+        physics: {
+          default: 'arcade',
+          arcade: {
+            gravity: { y: 0 }
+          }
+        },
+        scale: {
+          autoCenter: Phaser.Scale.CENTER_BOTH
+        },
+        scene: Scenes,
+        fps: {
+          target: 60,
+        },
+        callbacks: {
+          preBoot: (game) => {
+            // Makes sure the game doesnt create another game on rerender
+            setInitialised(false);
+            game.registry.merge({
+              selectedGotchi,
+              submitScore,
+              highscore: gotchiScore,
+            });
+          }, 
+        }
+      })
     }
-  }
+  }, [])
 
   if (!selectedGotchi) {
     return (
@@ -64,7 +65,7 @@ const Main = () => {
   }
 
   return (
-    <IonPhaser initialize={true} game={config} id="phaser-app" />
+    <IonPhaser initialize={initialised} game={config} id="phaser-app" />
   )
 }
 

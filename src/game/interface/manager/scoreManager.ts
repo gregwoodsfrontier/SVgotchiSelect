@@ -22,9 +22,10 @@ export class ScoreManager {
   }
 
   constructor(private _scene: Phaser.Scene) {
+    this.highScore = _scene.game.registry.values.highscore;
     this._init();
     this.print();
-    this.submitScore = _scene.game.registry.values.submitScore; 
+    this.submitScore = _scene.game.registry.values.submitScore;
   }
 
   private _init() {
@@ -46,7 +47,7 @@ export class ScoreManager {
     
     this._scene.load.addFile(new WebFontFile(this._scene.load, 'Press Start 2P'))
     this.scoreText = this._scene.add.text(10, SIZE_Y*0.01, `SCORE: 0`, normalTextConfig);
-    this.highscoreText = this._scene.add.text(10, SIZE_Y*0.075, `HIGH:  0`, normalTextConfig);
+    this.highscoreText = this._scene.add.text(10, SIZE_Y*0.075, `HIGH: ${this.highScore}`, normalTextConfig);
 
     this._setLivesText(SIZE_X, SIZE_Y, normalTextConfig);
 
@@ -130,16 +131,16 @@ export class ScoreManager {
     {
       this.highscoreText.setText(`HIGH:  ${this._scene.registry.get('highscore')}`)
       this._setBigText("GAME OVER", 
-      `HIGH SCORE: ${this._scene.registry.get('highscore')}`,
+      `HIGH SCORE: ${this.highScore}`,
       "","")
       this.setRestartText();
       
     }
     else
     {
-      this.highscoreText.setText(`HIGH:  0`)
+      this.highscoreText.setText(`HIGH:  ${this.highScore}`)
       this._setBigText("GAME OVER", 
-      `HIGH SCORE: 0`,
+      `HIGH SCORE: ${this.highScore}`,
       "","")
       this.setRestartText();
     }
@@ -165,9 +166,9 @@ export class ScoreManager {
     }
     else
     {
-      this.highscoreText.setText(`HIGH:  0`)
+      this.highscoreText.setText(`HIGH:  ${this.highScore}`)
       this._setBigText("GAME OVER", 
-      `HIGH SCORE: 0`,
+      `HIGH SCORE: ${this.highScore}`,
       "","")
       this.setRestartText();
     }
