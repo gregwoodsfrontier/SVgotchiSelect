@@ -35,7 +35,7 @@ export class SushiManager {
     private dx: number = 100
     private dy: number = 60
     descend: number = 55
-    tweenPeriod: number = 2000
+    tweenPeriod: number = 1500
 
     get noAliveSushis(): boolean {
         let noOfSushi = this.lv1sushi.getChildren().length + 
