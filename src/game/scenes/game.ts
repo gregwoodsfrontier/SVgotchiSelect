@@ -73,6 +73,9 @@ export class GameScene extends Phaser.Scene {
     // Callback data
     selectedGotchi?: AavegotchiGameObject;
 
+    // restarting state
+    restarting: boolean = false
+
     constructor() {
         super(sceneConfig);
     }
@@ -198,12 +201,13 @@ export class GameScene extends Phaser.Scene {
         if (this.state !== GameState.Playing)
         {
             this.physics.pause();
-            if (this.restartKey.isDown || this.p.isDown)
+            if ((this.restartKey.isDown || this.p.isDown) && !this.restarting)
             {
-                /* setTimeout(() => {
+                this.restarting = true
+                setTimeout(() => {
                     this.restart()
-                }, 1000); */
-                this.restart()
+                }, 1000);
+                //this.restart()
             }
             
         }       
@@ -595,6 +599,6 @@ export class GameScene extends Phaser.Scene {
         this.time.addEvent(this.spawnEvent);
         this.gotchi.setAlpha(1)
         this.IsShooting = true
-    
+        this.restarting = false
     }
 }
