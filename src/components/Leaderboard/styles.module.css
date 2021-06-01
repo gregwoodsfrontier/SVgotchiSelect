@@ -1,0 +1,45 @@
+@import 'theme/vars.css';
+
+.leaderboard {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.leaderboard .row {
+  border: 2px solid var(--color-pink_0);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.leaderboard .headerRow .cell {
+  text-transform: uppercase;
+}
+.leaderboard .row .cell {
+  color: white;
+  padding: 1.2rem;
+  overflow: hidden;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pageSelector {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.pageSelector .selector {
+  cursor: pointer;
+  border: 2px solid var(--color-pink_0);
+  color: white;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+}
+
+.pageSelector .selector.selected {
+  background-color: var(--color-purple_0);
+}
