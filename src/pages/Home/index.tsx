@@ -66,14 +66,14 @@ const Home = () => {
                 alt={`Loading Aavegotchi`}
               />
             )}
+            <h1 className={styles.highscore}>Highscore: {highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0}</h1>
             <Link to="/play" className={globalStyles.primaryButton} onClick={() => Send.play()}>
               Start
             </Link>
           </div>
-          <div>
+          <div className={styles.detailsPanelContainer}>
             <DetailsPanel
               selectedGotchi={selectedGotchi}
-              highscore={highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0}
             />
           </div>
         </div>

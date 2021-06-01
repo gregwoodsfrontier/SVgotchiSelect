@@ -2,10 +2,10 @@ import { AssetType } from './assets'
 
 export default class Gotchi extends Phaser.GameObjects.Sprite
 {
-    nrg?: number = 50 //energy
-    agg?: number = 50 //aggressive
-    spk?: number = 50 //spooky
-    brn?: number = 50//brian
+    nrg: number = 50 //energy
+    agg: number = 50 //aggressive
+    spk: number = 50 //spooky
+    brn: number = 50//brian
 
     constructor(scene:Phaser.Scene, x: number, y: number, key: string)
     {

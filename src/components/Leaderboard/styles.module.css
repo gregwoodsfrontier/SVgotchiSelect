@@ -4,11 +4,11 @@
   width: 100%;
   display: grid;
   gap: 8px;
-  margin-top: 32px;
+  margin-top: 3.2rem;
 }
 
 .leaderboard .row {
-  border: 2px solid var(--color-pink_0);
+  border: 2px solid var(--color-purple_0);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
@@ -33,7 +33,7 @@
 
 .pageSelector .selector {
   cursor: pointer;
-  border: 2px solid var(--color-pink_0);
+  border: 2px solid var(--color-purple_0);
   color: white;
   display: grid;
   place-items: center;

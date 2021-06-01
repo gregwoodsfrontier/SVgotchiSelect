@@ -60,7 +60,7 @@
   margin: 0 0 0 1.2rem;
 }
 
-@media only screen and (min-width: 768px){
+@media only screen and (min-width: 768px) {
   .desktopHeaderContent {
     display: flex;
     justify-content: space-between;
