@@ -15,3 +15,12 @@
 .traitRow .emoji {
   margin-right: 0.8rem;
 }
+
+.highscore {
+  border-top: 1px solid white;
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+}
+.highscore h1 {
+  text-align: right;
+}

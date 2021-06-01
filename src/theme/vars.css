@@ -7,4 +7,6 @@
   --color-purple_0: #6D18F8;
 
   --container-width-xl: 120rem;
+
+  --breakpoint-sm: 768px;
 }
