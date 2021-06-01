@@ -5,6 +5,7 @@ import globalStyles from 'theme/globalStyles.module.css';
 import { Send } from 'assets/sounds';
 import styles from './styles.module.css';
 import { getAavegotchisForUser } from 'web3/actions';
+import { useFirebase } from 'firebase-client';
 import { useWeb3 } from 'web3';
 import { bounceAnimation, convertInlineSVGToBlobURL, removeBG } from 'helpers/aavegotchi';
 import { Contract } from 'ethers';
@@ -12,6 +13,7 @@ import gotchiLoading from 'assets/gifs/loading.gif';
 
 const Home = () => {
   const { state: { usersGotchis, contract, address, selectedGotchi }, updateState } = useWeb3();
+  const { highscores, handleSubmitScore } = useFirebase();
 
   useEffect(() => {
     const _fetchGotchis = async (contract: Contract, address: string) => {
@@ -69,7 +71,10 @@ const Home = () => {
             </Link>
           </div>
           <div>
-            <DetailsPanel selectedGotchi={selectedGotchi} />
+            <DetailsPanel
+              selectedGotchi={selectedGotchi}
+              highscore={highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0}
+            />
           </div>
         </div>
       </div>
