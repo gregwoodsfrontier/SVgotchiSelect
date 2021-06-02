@@ -194,7 +194,7 @@ export class GameScene extends Phaser.Scene {
             this.escapeTheFud.resume()
         }
         // call debug here
-        this.debugCall2();        
+        //this.debugCall2();        
 
         //when score > 10k
         this.checkToIncreaseFireRate();
