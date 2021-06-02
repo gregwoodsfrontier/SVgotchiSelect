@@ -61,6 +61,11 @@ const assets: Array<Asset | SpritesheetAsset> = [
     type: 'IMAGE',
   },
   {
+    key: KEYS.BACK,
+    src: 'assets/images/back.png',
+    type: 'IMAGE',
+  },
+  {
     key: KEYS.SUSHIVADER,
     src: 'assets/images/sushi-vader-font-in.png',
     type: 'IMAGE',
