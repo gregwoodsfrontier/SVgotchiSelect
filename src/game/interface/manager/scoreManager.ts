@@ -8,9 +8,21 @@ export class ScoreManager {
   livesText!: Phaser.GameObjects.Text;
   restartText!: Phaser.GameObjects.Text;
   line1Text!: Phaser.GameObjects.Text;
+  line1Height?: number;
+  line1Width?: number;
+
   line2Text!: Phaser.GameObjects.Text;
+  line2Height?: number;
+  line2Width?: number;
+
   line3Text!: Phaser.GameObjects.Text;
+  line3Height?: number;
+  line3Width?: number;
+
   line4Text!: Phaser.GameObjects.Text;
+  line4Height?: number;
+  line4Width?: number;
+
   glives!: Phaser.Physics.Arcade.Group;
   highScore: number = 0;
   score = 0;
@@ -107,10 +119,18 @@ export class ScoreManager {
 
   private _setBigText(line1: string, line2: string, line3: string, line4: string) {
     this.line1Text.setText(line1);
-    this.line1Text.setDisplaySize(this.line1Text.displayWidth * getGameWidth(this._scene) / 800, this.line1Text.displayHeight * getGameHeight(this._scene) / 600);
+    if (this.line1Height === undefined) {
+      this.line1Height = this.line1Text.displayHeight;
+      this.line1Width = this.line1Text.displayWidth;
+    }
+    this.line1Text.setDisplaySize(this.line1Width * getGameWidth(this._scene) / 800, this.line1Height * getGameHeight(this._scene) / 600);
 
     this.line2Text.setText(line2);
-    this.line2Text.setDisplaySize(this.line2Text.displayWidth * getGameWidth(this._scene) / 800, this.line2Text.displayHeight * getGameHeight(this._scene) / 600);
+    if (this.line2Height === undefined) {
+      this.line2Height = this.line2Text.displayHeight;
+      this.line2Width = this.line2Text.displayWidth;
+    }
+    this.line2Text.setDisplaySize(this.line2Width * getGameWidth(this._scene) / 800, this.line2Height * getGameHeight(this._scene) / 600);
 
     this.line3Text.setText(line3);
 
@@ -124,11 +144,19 @@ export class ScoreManager {
   private setRestartText()
   {
     this.restartText = this.line3Text.setText('D /Click to restart')
-    this.line3Text.setDisplaySize(this.line3Text.displayWidth * getGameWidth(this._scene) / 800, this.line3Text.displayHeight * getGameHeight(this._scene) / 600);
+    if (this.line3Height === undefined) {
+      this.line3Height = this.line3Text.displayHeight;
+      this.line3Width = this.line3Text.displayWidth;
+    }
+    this.line3Text.setDisplaySize(this.line3Width * getGameWidth(this._scene) / 800, this.line3Height * getGameHeight(this._scene) / 600);
 
 
     this.line4Text.setText('Credit to @jo0wz\n  for FUD music')
-    this.line4Text.setDisplaySize(this.line4Text.displayWidth * getGameWidth(this._scene) / 800, this.line4Text.displayHeight * getGameHeight(this._scene) / 600);
+    if (this.line4Height === undefined) {
+      this.line4Height = this.line4Text.displayHeight;
+      this.line4Width = this.line4Text.displayWidth;
+    }
+    this.line4Text.setDisplaySize(this.line4Width * getGameWidth(this._scene) / 800, this.line4Height * getGameHeight(this._scene) / 600);
 
   }
 
