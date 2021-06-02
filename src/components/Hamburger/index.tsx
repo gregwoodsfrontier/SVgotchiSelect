@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Click } from "assets/sounds";
+import { click } from "assets/sounds";
+import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';
 
 interface Props {
@@ -10,7 +11,7 @@ export const Hamburger = (props: Props) => {
   const [open, setOpen] = useState(false)
 
   const handleClick = () => {
-    Click.play();
+    playSound(click);
     setOpen(!open);
     props.onClick();
   }

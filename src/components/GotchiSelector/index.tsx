@@ -1,7 +1,8 @@
 import { AavegotchiObject } from 'types';
 import { ChevronUp, ChevronDown } from 'assets/icons';
-import { Click } from 'assets/sounds';
+import { click } from 'assets/sounds';
 import { convertInlineSVGToBlobURL } from 'helpers/aavegotchi';
+import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';
 import globalStyles from 'theme/globalStyles.module.css';
 import { useEffect, useState, useCallback } from 'react';
@@ -53,7 +54,7 @@ export const GotchiSelector = ({ gotchis, selectGotchi, initialGotchi, maxVisibl
     const nextIteration = currentIteration + i;
     if (nextIteration > maxIterations || nextIteration < 0) return;
 
-    Click.play();
+    playSound(click);
     setCurrentIteration(nextIteration);
   }
 
@@ -91,7 +92,7 @@ export const GotchiSelector = ({ gotchis, selectGotchi, initialGotchi, maxVisibl
                   className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
                   key={i}
                   onClick={() => {
-                    Click.play();
+                    playSound(click);
                     handleSelect(i);
                   }}
                 >

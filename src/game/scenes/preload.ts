@@ -42,7 +42,7 @@ export default class Preload extends Phaser.Scene
         });
         this.load.image(AssetType.Gem, "/images/gem.png")
         
-        this.sound.volume = 0.25;
+        this.sound.volume = Number(window.localStorage.getItem("volume") || "5") / 10;
 
         this.load.audio(SoundType.Shoot, "/audio/shoot.wav");
         this.load.audio(SoundType.Kaboom, "/audio/explosion.wav");

@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { Layout, GotchiSelector, DetailsPanel } from 'components';
 import { Link } from "react-router-dom";
 import globalStyles from 'theme/globalStyles.module.css';
-import { Send } from 'assets/sounds';
+import { send } from 'assets/sounds';
 import styles from './styles.module.css';
 import { getAavegotchisForUser } from 'web3/actions';
 import { useFirebase } from 'firebase-client';
@@ -10,6 +10,7 @@ import { useWeb3 } from 'web3';
 import { bounceAnimation, convertInlineSVGToBlobURL, removeBG } from 'helpers/aavegotchi';
 import { Contract } from 'ethers';
 import gotchiLoading from 'assets/gifs/loading.gif';
+import { playSound } from 'helpers/hooks/useSound';
 
 const Home = () => {
   const { state: { usersGotchis, contract, address, selectedGotchi }, updateState } = useWeb3();
@@ -67,7 +68,7 @@ const Home = () => {
               />
             )}
             <h1 className={styles.highscore}>Highscore: {highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0}</h1>
-            <Link to="/play" className={globalStyles.primaryButton} onClick={() => Send.play()}>
+            <Link to="/play" className={globalStyles.primaryButton} onClick={() => playSound(send)}>
               Start
             </Link>
           </div>

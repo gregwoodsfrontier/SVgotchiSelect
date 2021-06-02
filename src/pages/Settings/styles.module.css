@@ -1,0 +1,35 @@
+@import 'theme/vars.css';
+
+.container {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 5.4rem 0;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+}
+.inputContainer label {
+  color: white;
+  font-size: 1.6rem;
+  margin-right: 0.8rem;
+}
+.inputContainer option {
+  background-color: white;
+}
+
+input[type='range'] {
+  overflow: hidden;
+  -webkit-appearance: none;
+  background-color: var(--color-dark_2);;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  width: 0;
+  -webkit-appearance: none;
+  height: 10px;
+  cursor: ew-resize;
+  
+  box-shadow: -80px 0 0 80px var(--color-purple_0);
+}
