@@ -302,8 +302,8 @@ export class GameScene extends Phaser.Scene {
             modifier = (_brn/100) * 0.2
         }
         this.suBullSpeed = 250 * (0.9 + modifier) // base 250
-        this.suBullAngle2 = 0.2 + modifier // base 0.3
-        this.suBullAngle3 = 0.4 + modifier // base 0.5
+        this.suBullAngle2 = 0.3 + modifier // base 0.4
+        this.suBullAngle3 = 0.5 + modifier // base 0.6
     }
 
     // use AGG to affect gotchi bullet rate and speed
@@ -322,8 +322,8 @@ export class GameScene extends Phaser.Scene {
         {
             modifier = _agg/100
         }
-        this.gBulletSpeed = 360 + (modifier*80) // base: 400
-        this.gShootPeriod = 360 + (modifier*80) // base: 400
+        this.gBulletSpeed = 320 + (modifier*80*2) // base: 400
+        this.gShootPeriod = 270 + (modifier*80*2) // base: 350
     }
 
     // use NRG to affect the moving speed of gotchi and
