@@ -12,6 +12,7 @@ import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
 import Gotchi from "../interface/gotchi";
 import { AavegotchiGameObject } from 'types';
+import { BACK, CLICK } from 'assets';
 import { getGameWidth, getGameHeight } from "game/helpers";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -34,6 +35,10 @@ export class GameScene extends Phaser.Scene {
     restartKey!: Phaser.Input.Keyboard.Key
     assetManager!: AssetManager
     p: Phaser.Input.Pointer;
+
+    public back?: Phaser.Sound.BaseSound;
+    backbutton: Phaser.GameObjects.Image;
+    quitGame: boolean;
 
     spawnTimer = 3000  // start spawning time later
     spawnDelay = 3000
@@ -90,6 +95,12 @@ export class GameScene extends Phaser.Scene {
         this.scene.run(SceneKeys.BackGround)
         this.scene.sendToBack(SceneKeys.BackGround)
         this.state = GameState.Playing
+
+        this.back = this.sound.add(CLICK, { loop: false });
+        this.backbutton = this.createBackButton();
+        this.backbutton.setVisible(false);
+        this.quitGame = false;
+
 
         this.gotchiSpeed = 0.3125 * getGameWidth(this);
 
@@ -157,6 +168,20 @@ export class GameScene extends Phaser.Scene {
         this.info = this.add.text(0, 0, '', { color: '#00ff00' } )
         this.p = this.input.activePointer;
     }
+
+    private createBackButton = () => {
+        const backButton = this.add
+          .image(getGameWidth(this), 0, BACK)
+          .setInteractive({ useHandCursor: true })
+          .setOrigin(1, 0)
+          .setDisplaySize(getGameWidth(this) / 10, getGameWidth(this) / 10)
+          .on('pointerdown', () => {
+            this.quitGame = true;
+            this.back?.play();
+            window.history.back();
+          });
+        return backButton;
+      };
 
     update() 
     {
@@ -454,6 +479,7 @@ export class GameScene extends Phaser.Scene {
     private callGameOver()
     {
         this.state = GameState.GameOver;
+        this.backbutton.setVisible(true);
         this.IsShooting = false;
         this.IsStar = false;
         this.scoreManager.setHighScoreTextLose();
@@ -589,7 +615,10 @@ export class GameScene extends Phaser.Scene {
     }
 
     restart() {
+        if (this.quitGame) return;
+
         this.state = GameState.Playing;
+        this.backbutton.setVisible(false);
         this.gotchi.setActive(true);
         //this.gotchi.body.enable = true;
         this.gotchi.visible = true;

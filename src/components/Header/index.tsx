@@ -62,14 +62,14 @@ export const Header = () => {
           >
             Leaderboard
           </NavLink>
-          <NavLink
+          {/* <NavLink
             onClick={() => Click.play()}
             to="/settings"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
           >
             Settings
-          </NavLink>
+          </NavLink> */}
         </ul>
         <WalletButton />
       </nav>
@@ -97,14 +97,14 @@ export const Header = () => {
             >
               Leaderboard
             </NavLink>
-            <NavLink
+            {/* <NavLink
               onClick={() => Click.play()}
               to="/settings"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}
             >
               Settings
-            </NavLink>
+            </NavLink> */}
             <WalletButton />
           </nav>
         </SideTray>
