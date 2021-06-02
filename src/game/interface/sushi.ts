@@ -25,11 +25,11 @@ export class Lv1Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
         this.setDisplaySize(this.displayWidth * getGameWidth(scene) / 800, this.displayHeight * getGameHeight(scene) / 600);
     }
 
-    shoot(ebullet: EnemyBullet, target: Phaser.Physics.Arcade.Sprite)
+    shoot(ebullet: EnemyBullet, target: Phaser.Physics.Arcade.Sprite, spdScale: number)
     {
         ebullet.setPosition(this.x, this.y)
         ebullet.setDisplaySize(ebullet.displayWidth * getGameWidth(this.scene) / 400, ebullet.displayHeight * getGameHeight(this.scene) / 300);
-        this.scene.physics.moveToObject(ebullet, target, getGameWidth(this.scene) * 0.32)
+        this.scene.physics.moveToObject(ebullet, target, getGameWidth(this.scene) * spdScale)
     }
 
 }
@@ -49,12 +49,14 @@ export class Lv2Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
 
     shoot(eb0: EnemyBullet,
         eb1: EnemyBullet,
-        target: Phaser.Physics.Arcade.Sprite)
+        target: Phaser.Physics.Arcade.Sprite,
+        theta: number,
+        spdScale: number)
     {
-        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
-        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
-        b0.setAngle(b0.angle() + 0.2)
-        b1.setAngle(b1.angle() - 0.2)
+        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * spdScale)
+        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * spdScale)
+        b0.setAngle(b0.angle() + theta)
+        b1.setAngle(b1.angle() - theta)
 
         eb0.setPosition(this.x, this.y);
         eb1.setPosition(this.x, this.y);
@@ -86,13 +88,15 @@ export class Lv3Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
     shoot(eb0: EnemyBullet,
         eb1: EnemyBullet,
         eb2: EnemyBullet,
-        target: Phaser.Physics.Arcade.Sprite)
+        target: Phaser.Physics.Arcade.Sprite,
+        theta: number,
+        spdScale: number)
     {
-        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
-        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
-        let b2 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
-        b0.setAngle(b0.angle() + 0.4)
-        b1.setAngle(b1.angle() - 0.4)
+        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * spdScale)
+        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * spdScale)
+        let b2 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * spdScale)
+        b0.setAngle(b0.angle() + theta)
+        b1.setAngle(b1.angle() - theta)
 
         eb0.setPosition(this.x, this.y);
         eb1.setPosition(this.x, this.y);

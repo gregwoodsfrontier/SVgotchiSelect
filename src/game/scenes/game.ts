@@ -301,9 +301,10 @@ export class GameScene extends Phaser.Scene {
         {
             modifier = (_brn/100) * 0.2
         }
-        this.suBullSpeed = 250 * (0.9 + modifier) // base 250
-        this.suBullAngle2 = 0.3 + modifier // base 0.4
-        this.suBullAngle3 = 0.5 + modifier // base 0.6
+        this.suBullSpeed = 0.32 * (0.9 + modifier) // spdScale
+        //this.suBullSpeed = 250 * (0.9 + modifier) // base 250
+        this.suBullAngle2 = 0.25 + modifier // base 0.35
+        this.suBullAngle3 = 0.45 + modifier // base 0.55
     }
 
     // use AGG to affect gotchi bullet rate and speed
@@ -578,20 +579,20 @@ export class GameScene extends Phaser.Scene {
             if (livingSushi.sprite === AssetType.SushiLv1)
             {
                 //@ts-ignore
-                livingSushi.shoot(eB[0], this.gotchi)
+                livingSushi.shoot(eB[0], this.gotchi, this.suBullSpeed)
                 
                 
             }//@ts-ignore
             else if (livingSushi.sprite === AssetType.SushiLv2)
             {
                 //@ts-ignore
-                livingSushi.shoot(eB[0], eB[1], this.gotchi)
+                livingSushi.shoot(eB[0], eB[1], this.gotchi, this.suBullAngle2, this.suBullSpeed)
                                 
             }//@ts-ignore
             else if (livingSushi.sprite === AssetType.SushiLv3)
             {
                 //@ts-ignore
-                livingSushi.shoot(eB[0], eB[1],  eB[2], this.gotchi)
+                livingSushi.shoot(eB[0], eB[1],  eB[2], this.gotchi, this.suBullAngle3, this.suBullSpeed)
 
             }
 
