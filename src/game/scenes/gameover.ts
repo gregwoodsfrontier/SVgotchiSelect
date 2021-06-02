@@ -3,7 +3,8 @@ import {AssetType} from '../interface/assets'
 import {ScoreManager} from '../interface/manager/scoreManager'
 import blinkText from '../interface/blinkText'
 import { SceneKeys } from '../consts/SceneKeys'
-import {GameScene} from './game'
+import { getGameWidth, getGameHeight } from "game/helpers";
+
 export default class GameOverScene extends Phaser.Scene
 {
     scoreManager!: ScoreManager
@@ -14,22 +15,22 @@ export default class GameOverScene extends Phaser.Scene
 
     create()
     {
-        this.add.image(400, 300, AssetType.Galaxy);
+        this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, AssetType.Galaxy);
         this.scoreManager = new ScoreManager(this);
         this.scoreManager.highscoreText.setVisible(false);
         this.scoreManager.scoreText.setVisible(false);
         this.scoreManager.livesText.setVisible(false);
         this.scoreManager.glives.setVisible(false);
 
-        this.add.text(400, 100, "GAME SET", {
+        this.add.text(getGameWidth(this) / 2, getGameHeight(this) / 6, "GAME SET", {
             fontFamily: '"Press Start 2P"',
-            fontSize: '30px',
+            fontSize: `30px`,
             color: "#ffffff"    
         }).setOrigin(0.5)
 
-        this.replayText = this.add.text(400, 180, "HIT D TO REPLAY", {
+        this.replayText = this.add.text(getGameWidth(this) / 2, getGameHeight(this) * 0.3, "HIT D TO REPLAY", {
             fontFamily: '"Press Start 2P"',
-            fontSize: '30px',
+            fontSize: `30px`,
             color: "#ffffff"    
         }).setOrigin(0.5)
 
@@ -44,9 +45,9 @@ export default class GameOverScene extends Phaser.Scene
             }
         )
 
-        this.highscoreText = this.add.text(100, 250, `HIGH SCORE: 0`, {
+        this.highscoreText = this.add.text(getGameWidth(this) / 8, getGameHeight(this) * 0.42, `HIGH SCORE: 0`, {
             fontFamily: '"Press Start 2P"',
-            fontSize: '30px',
+            fontSize: `30px`,
             color: "#ffffff"    
         })
 

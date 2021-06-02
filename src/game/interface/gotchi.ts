@@ -1,4 +1,4 @@
-import { AssetType } from './assets'
+import { getGameWidth, getGameHeight } from 'game/helpers';
 
 export default class Gotchi extends Phaser.GameObjects.Sprite
 {
@@ -12,7 +12,7 @@ export default class Gotchi extends Phaser.GameObjects.Sprite
         super(scene, x, y, key);
         this.scene.physics.world.enable(this);
         (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
-        this.setScale(0.5);
+        this.setDisplaySize(this.displayWidth * getGameWidth(scene) / 1600, this.displayHeight * getGameHeight(scene) / 1200);
     }
 
     setTraits(_nrg: number, _agg: number, _spk: number, _brn: number)
