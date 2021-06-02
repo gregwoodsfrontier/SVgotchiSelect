@@ -7,10 +7,26 @@
   margin-top: 3.2rem;
 }
 
+.toggle {
+  cursor: pointer;
+  background-color: var(--color-purple_0);
+  border: none;
+  width: 16rem;
+  padding: 0.8rem;
+  color: white;
+  margin-left: auto;
+  text-transform: uppercase;
+}
+
 .leaderboard .row {
   border: 2px solid var(--color-purple_0);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+}
+.leaderboard .headerRow {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-dark_1);;
 }
 .leaderboard .headerRow .cell {
   text-transform: uppercase;
@@ -25,6 +41,9 @@
 }
 .leaderboard .row.owned .cell {
   color: var(--color-pink_0);
+}
+.leaderboard .row.hide {
+  display: none;
 }
 
 .pageSelector {

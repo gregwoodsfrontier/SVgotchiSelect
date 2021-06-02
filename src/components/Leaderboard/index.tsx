@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HighScore } from 'types';
+import { playSound } from 'helpers/hooks/useSound';
+import { click } from 'assets/sounds';
 import styles from './styles.module.css';
 
 interface Props {
@@ -7,8 +9,16 @@ interface Props {
   ownedGotchis?: Array<string>;
 }
 
+interface DisplayedScore extends HighScore {
+  position: number;
+  exp: number;
+}
+
 export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
   const [ currentPage, setCurrentPage ] = useState(0);
+  const [ onlyMine, setOnlyMine ] = useState(false);
+  const [ sortedScores, setSortedScores ] = useState<Array<DisplayedScore>>([]);
+  const [ displayedScores, setDisplayedScores ] = useState<Array<DisplayedScore>>([]);
 
   const pageTotal = 50;
   
@@ -25,31 +35,76 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
     return 0;
   }
 
+  useEffect(() => {
+    if (onlyMine) {
+      setCurrentPage(0);
+      const scores = [...sortedScores].filter(score => ownedGotchis.includes(score.tokenId));
+      setDisplayedScores(scores);
+    } else {
+      setDisplayedScores(sortedScores);
+    }
+  }, [onlyMine, sortedScores, ownedGotchis]);
+
+  useEffect(() => {
+    if (highscores) {
+      const hs = highscores.map((score, i) => {
+        const position = i + 1;
+        return {
+          ...score,
+          position: position,
+          exp: getExp(score.score, position),
+        }
+      })
+      setSortedScores(hs);
+    }
+  }, [highscores])
+
   return (
     <div className={styles.leaderboard}>
+      {
+        ownedGotchis?.length > 0 && (
+          <button
+            className={styles.toggle}
+            onClick={() => {
+              playSound(click);
+              setOnlyMine(prevState => !prevState)
+            }}
+          >
+            {onlyMine ? "View all" : "Only mine"}
+          </button>
+        )
+      }
       <div className={`${styles.row} ${styles.headerRow}`}>
         <div className={styles.cell}>Aavegotchi</div>
         <div className={styles.cell}>Score</div>
         <div className={styles.cell}>Rewards</div>
       </div>
-      {highscores?.slice(currentPage * pageTotal, currentPage * pageTotal + pageTotal).map((item, i) => {
-        const position = i + 1 + currentPage * pageTotal;
+      {displayedScores?.slice(currentPage * pageTotal, currentPage * pageTotal + pageTotal).map(item => {
         return (
-          <div className={`${styles.row} ${ownedGotchis?.includes(item.tokenId) ? styles.owned : ''}`} key={item.tokenId}>
-            <div className={styles.cell}>{position}. {item.name} [{item.tokenId}]</div>
+          <div
+            className={`
+              ${styles.row}
+              ${ownedGotchis?.includes(item.tokenId) ? styles.owned : ''}
+            `}
+            key={item.tokenId}
+          >
+            <div className={styles.cell}>{item.position}. {item.name} [{item.tokenId}]</div>
             <div className={styles.cell}>{item.score}</div>
-            <div className={styles.cell}>{getExp(item.score, position)} EXP</div>
+            <div className={styles.cell}>{item.exp} EXP</div>
           </div>
         )
       })}
-      {highscores && highscores?.length > pageTotal &&
+      {displayedScores.length > pageTotal &&
         <div className={styles.pageSelector}>
           {
-            Array(Math.ceil(highscores.length / pageTotal)).fill(null).map((_, i) => {
+            Array(Math.ceil(displayedScores.length / pageTotal)).fill(null).map((_, i) => {
               return (
                 <div
                   className={`${styles.selector} ${i === currentPage ? `${styles.selected}` : ''}`}
-                  onClick={() => setCurrentPage(i)}
+                  onClick={() => {
+                    playSound(click);
+                    setCurrentPage(i)
+                  }}
                 >
                   {i + 1}
                 </div>
