@@ -168,7 +168,7 @@ export class ScoreManager {
       this._scene.registry.set('highscore', this.highScore)
     }
 
-    if (this._scene.registry.get('highscore') != undefined)
+    if (this._scene.registry.get('highscore') !== undefined)
     {
       this.highscoreText.setText(`HIGH:  ${this._scene.registry.get('highscore')}`)
       this._setBigText("GAME OVER", 
