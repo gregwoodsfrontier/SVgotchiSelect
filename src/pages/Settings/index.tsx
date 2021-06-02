@@ -5,7 +5,7 @@ import { playSound } from 'helpers/hooks/useSound';
 import { click } from 'assets/sounds';
 
 const Settings = () => {
-  const [ volume, setVolume ] = useState('');
+  const [ volume, setVolume ] = useState(window.localStorage.getItem("volume") ?? "5");
 
   const handleVolumeChange = () => {
     window.localStorage.setItem("volume", volume);
@@ -18,6 +18,7 @@ const Settings = () => {
         <div className={styles.inputContainer}>
           <label htmlFor="volume">Volume</label>
           <input
+            value={volume}
             type="range"
             id="volume"
             name="volume"
