@@ -3,6 +3,7 @@ import { SceneKeys } from '../consts/SceneKeys';
 import blinkText from '../interface/blinkText'
 //import WebFontFile from './webFontFile'
 import { AavegotchiGameObject } from 'types';
+import { getGameWidth, getGameHeight } from '../helpers'
 
 const retro = {
     fontFamily: '"Press Start 2P"', 
@@ -29,11 +30,21 @@ export default class TitleScene extends Phaser.Scene
     
     create()
     {
-        this.add.image(400, 300, 'galaxy');
-        this.add.image(400, 150, 'logo').setScale(0.4, 0.4);
-        this.add.image(400, 300, 'sushiVader');
-        this.add.text(400, 375, 'V2', retro).setOrigin(0.5, 0);
-        const startText = this.add.text(400, 450, 'Click to start', retro).setOrigin(0.5, 0);
+        this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, 'galaxy').setDisplaySize(getGameWidth(this), getGameHeight(this));
+
+        const logo = this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 4, 'logo');
+        logo.setDisplaySize(logo.displayWidth * getGameWidth(this) * 0.4 / 800, logo.displayHeight * getGameHeight(this) * 0.4 / 600);
+
+        const sushiVader = this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, 'sushiVader');
+        sushiVader.setDisplaySize(sushiVader.displayWidth * getGameWidth(this) / 800, sushiVader.displayHeight * getGameHeight(this) / 600);
+
+        const versionText = this.add.text(getGameWidth(this) / 2, getGameHeight(this) * 0.625, 'V2', retro).setOrigin(0.5, 0);
+        versionText.setDisplaySize(versionText.displayWidth * getGameWidth(this) / 800, versionText.displayHeight * getGameHeight(this) / 600);
+
+
+        const startText = this.add.text(getGameWidth(this) / 2, getGameHeight(this) * 0.75, 'Click to start', retro).setOrigin(0.5, 0);
+        startText.setDisplaySize(startText.displayWidth * getGameWidth(this) / 800, startText.displayHeight * getGameHeight(this) / 600);
+
         const blinkDelay = 500;
         // blinking text
         this.time.addEvent(

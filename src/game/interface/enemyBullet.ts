@@ -1,4 +1,6 @@
 import { AssetType } from "./assets"
+import { getGameHeight } from 'game/helpers';
+
 
 export class EnemyBullet extends Phaser.Physics.Arcade.Sprite
 {
@@ -15,7 +17,7 @@ export class EnemyBullet extends Phaser.Physics.Arcade.Sprite
 
     update()
     {
-        if(this.y > 610)
+        if(this.y > getGameHeight(this.scene) * 1.1)
         {
             this.destroy()
         }

@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 //import { AssetType, SoundType } from "../interface/assets";
 import * as KEYS from 'assets';
 import * as SCENEKEYS from './scenekeys';
+import { getGameWidth, getGameHeight } from '../helpers'
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -27,9 +28,9 @@ export default class BackGround extends Phaser.Scene
 
     create()
     {
-        this.tileSprite = this.add.tileSprite(400, 300, 800, 600, KEYS.GALAXY);
+        this.tileSprite = this.add.tileSprite(getGameWidth(this) / 2, getGameHeight(this)  / 2, getGameWidth(this), getGameHeight(this), KEYS.GALAXY);
         // auto-game-over line
-        this.add.rectangle(400, 480, 800, 5, 0xff33ff, 0.25)
+        this.add.rectangle(getGameWidth(this) / 2, getGameHeight(this) * 0.8, getGameWidth(this), 5, 0xff33ff, 0.25)
     }
 
     update()

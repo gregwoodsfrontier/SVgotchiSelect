@@ -12,6 +12,7 @@ import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
 import Gotchi from "../interface/gotchi";
 import { AavegotchiGameObject } from 'types';
+import { getGameWidth, getGameHeight } from "game/helpers";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -49,14 +50,14 @@ export class GameScene extends Phaser.Scene {
 
     // enemy bullet period
     fireDelay = 1500
-    fireDelayModifer = 0.8
+    fireDelayModifer = 0.9
     lowFireDelay = this.fireDelay*this.fireDelayModifer
 
     // immune state of gotchi
     IsStar: boolean = false
     // immunity time is affected by energy NRG
     IsStarTime: number = 2000
-    gotchiSpeed: number = 250
+    gotchiSpeed: number;
 
     // the following is affected by BRN trait
     suBullSpeed: number = 250
@@ -78,6 +79,7 @@ export class GameScene extends Phaser.Scene {
 
     constructor() {
         super(sceneConfig);
+        
     }
 
     init = (data: { selectedGotchi: AavegotchiGameObject }): void => {
@@ -89,6 +91,8 @@ export class GameScene extends Phaser.Scene {
         this.scene.sendToBack(SceneKeys.BackGround)
         this.state = GameState.Playing
 
+        this.gotchiSpeed = 0.3125 * getGameWidth(this);
+
         this.animationFactory = new AnimationFactory(this)
         this.scoreManager = new ScoreManager(this)
         this.sushiManager = new SushiManager(this)
@@ -99,7 +103,7 @@ export class GameScene extends Phaser.Scene {
         })
         this.escapeTheFud.play()
 
-        this.gotchi = new Gotchi(this, 400, 525, this.selectedGotchi?.spritesheetKey as string);
+        this.gotchi = new Gotchi(this, getGameWidth(this) / 2, getGameHeight(this) * 0.875, this.selectedGotchi?.spritesheetKey as string);
         this.gotchi.setTraits(
             this.selectedGotchi?.withSetsNumericTraits[0] as number,
             this.selectedGotchi?.withSetsNumericTraits[1] as number,
@@ -314,7 +318,7 @@ export class GameScene extends Phaser.Scene {
         {
             modifier = _nrg
         }
-        this.gotchiSpeed = 200 + modifier // base is 250
+        this.gotchiSpeed = (200 + modifier) * getGameWidth(this) / 800;
         this.IsStarTime = 2600 - modifier*10 // base is 2100
     }
 
@@ -351,7 +355,7 @@ export class GameScene extends Phaser.Scene {
     // When sushi crossed a certain line, insta game over
     private sushiCross()
     {
-        let yline = 450
+        let yline = getGameHeight(this) * 0.75;
         this.sushiManager.lv1sushi.getChildren().forEach(c => {
             const child = c as Phaser.Physics.Arcade.Sprite
             if (child.y > yline)
@@ -432,9 +436,9 @@ export class GameScene extends Phaser.Scene {
 
     private _shipKeyboardHandler(_gotchi) {
         _gotchi.body.setVelocity(0, 0)
-        if (this.cursors.left.isDown || (this.p.isDown && this.p.x <= 400)) {
+        if (this.cursors.left.isDown || (this.p.isDown && this.p.x <= getGameWidth(this) / 2)) {
             _gotchi.body.setVelocityX(-1*this.gotchiSpeed);
-        } else if (this.cursors.right.isDown || (this.p.isDown && this.p.x > 400)) {
+        } else if (this.cursors.right.isDown || (this.p.isDown && this.p.x > getGameWidth(this) / 2)) {
             _gotchi.body.setVelocityX(this.gotchiSpeed);
         }
         if (Phaser.Input.Keyboard.JustDown(this.fireKey)) {
@@ -468,6 +472,7 @@ export class GameScene extends Phaser.Scene {
     private explosionEffects(_x:number, _y:number)
     {
         let explosion: Kaboom = this.assetManager.explosions.get();
+        explosion.setDisplaySize(explosion.displayWidth * getGameWidth(this) / 800, explosion.displayHeight * getGameHeight(this) / 600)
         explosion.setPosition(_x, _y)
         explosion.play(AnimationType.Kaboom)
         this.sound.play(SoundType.InvaderKilled)
@@ -513,6 +518,7 @@ export class GameScene extends Phaser.Scene {
             )
         }
 
+        explosion.setDisplaySize(explosion.displayWidth * getGameWidth(this) / 800, explosion.displayHeight * getGameHeight(this) / 600)
         explosion.setPosition(this.gotchi.x, this.gotchi.y);
         explosion.play(AnimationType.Kaboom);
         this.sound.play(SoundType.Kaboom)

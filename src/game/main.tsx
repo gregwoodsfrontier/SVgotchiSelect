@@ -25,10 +25,18 @@ const Main = () => {
       const gotchiScore = highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0;
       setHighscore(gotchiScore);
 
+      let width = window.innerWidth;
+      let height = width / 1.333;
+
+      if (height > window.innerHeight) {
+        height = window.innerHeight;
+        width = height * 1.333;
+      }
+
       setConfig({
         type: Phaser.AUTO,
-        width: 800,
-        height: 600,
+        width: width,
+        height: height,
           backgroundColor: '0x808080',
         physics: {
           default: 'arcade',

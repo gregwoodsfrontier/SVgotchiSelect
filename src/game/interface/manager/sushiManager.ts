@@ -2,8 +2,10 @@ import { Lv1Sushi, Lv2Sushi, Lv3Sushi} from "../sushi";
 import { AnimationType } from "../factory/animationFactory";
 import { AnimationFactory } from "../factory/animationFactory"
 import { AssetType } from "../assets";
+import { getGameWidth, getGameHeight } from "game/helpers";
 
 export class SushiManager {
+    scene: Phaser.Scene;
     wave1 = [
         [2,2,2,2,2],
         [1,1,1,1,1],
@@ -30,11 +32,11 @@ export class SushiManager {
         AnimationType.Sushi3Fly
     ]
 
-    private ORIGIN_X: number = 100
-    private ORIGIN_Y: number = 100
-    private dx: number = 100
-    private dy: number = 60
-    descend: number = 55
+    private ORIGIN_X: number;
+    private ORIGIN_Y: number;
+    private dx: number;
+    private dy: number;
+    descend: number;
     tweenPeriod: number = 1500
 
     get noAliveSushis(): boolean {
@@ -47,6 +49,13 @@ export class SushiManager {
 
     constructor(private _scene: Phaser.Scene) {
         // lv1sushi add group
+        this.scene = _scene;
+        this.ORIGIN_X = getGameWidth(this.scene) / 8;
+        this.ORIGIN_Y = getGameHeight(this.scene) / 6;
+        this.dx = getGameWidth(this.scene) / 8;
+        this.dy = getGameHeight(this.scene) / 10;
+        this.descend = getGameHeight(this.scene) * 0.092;
+
         this.lv1sushi = this._scene.physics.add.group(
             {
                 maxSize: 40,
@@ -205,7 +214,7 @@ export class SushiManager {
                 targets: child,
                 ease: "Linear",
                 duration: this.tweenPeriod,
-                x: "+=200",
+                x: `+=${getGameWidth(this.scene) / 4}`,
                 paused: false,
                 delay: 0,
                 yoyo: true,

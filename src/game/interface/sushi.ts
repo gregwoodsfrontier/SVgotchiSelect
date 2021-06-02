@@ -1,3 +1,4 @@
+import { getGameHeight, getGameWidth } from 'game/helpers'
 import { AssetType, SoundType } from './assets'
 import { EnemyBullet } from './enemyBullet'
 import { AssetManager } from './manager/assetManager'
@@ -21,14 +22,15 @@ export class Lv1Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
     constructor(scene: Phaser.Scene, x: number, y: number)
     {
         super(scene, x, y, AssetType.SushiLv1);
+        this.setDisplaySize(this.displayWidth * getGameWidth(scene) / 800, this.displayHeight * getGameHeight(scene) / 600);
     }
 
     shoot(ebullet: EnemyBullet, target: Phaser.Physics.Arcade.Sprite)
     {
         ebullet.setPosition(this.x, this.y)
-        ebullet.setScale(2)
-        ebullet.setCircle(4, 0, 0)
-        this.scene.physics.moveToObject(ebullet, target, 250)
+        ebullet.setDisplaySize(ebullet.displayWidth * getGameWidth(this.scene) / 400, ebullet.displayHeight * getGameHeight(this.scene) / 300);
+        ebullet.setCircle(getGameWidth(this.scene) / 200, 0, 0)
+        this.scene.physics.moveToObject(ebullet, target, getGameWidth(this.scene) * 0.32)
     }
 
 }
@@ -43,23 +45,26 @@ export class Lv2Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
     constructor(scene: Phaser.Scene, x: number, y: number)
     {
         super(scene, x, y, AssetType.SushiLv2);
+        this.setDisplaySize(this.displayWidth * getGameWidth(scene) / 800, this.displayHeight * getGameHeight(scene) / 600);
     }
 
     shoot(eb0: EnemyBullet,
         eb1: EnemyBullet,
         target: Phaser.Physics.Arcade.Sprite)
     {
-        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(250)
-        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(250)
+        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
+        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
         b0.setAngle(b0.angle() + 0.2)
         b1.setAngle(b1.angle() - 0.2)
 
         eb0.setPosition(this.x, this.y);
         eb1.setPosition(this.x, this.y);
-        eb0.setScale(3);
-        eb1.setScale(3);
-        eb0.setCircle(this.scale * 4, 0 ,0);
-        eb1.setCircle(this.scale * 4, 0, 0);
+
+        eb0.setDisplaySize(eb0.displayWidth * getGameWidth(this.scene) * 3 / 800, eb0.displayHeight * getGameHeight(this.scene) * 3 / 600);
+        eb1.setDisplaySize(eb1.displayWidth * getGameWidth(this.scene) * 3 / 800, eb1.displayHeight * getGameHeight(this.scene) * 3 / 600);
+
+        eb0.setCircle(this.scale * getGameWidth(this.scene) / 200, 0 ,0);
+        eb1.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
         eb0.setVelocity(b0.x, b0.y)
         eb1.setVelocity(b1.x, b1.y)
     }
@@ -76,6 +81,7 @@ export class Lv3Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
     constructor(scene: Phaser.Scene, x: number, y: number)
     {
         super(scene, x, y, AssetType.SushiLv3);
+        this.setDisplaySize(this.displayWidth * getGameWidth(scene) / 800, this.displayHeight * getGameHeight(scene) / 600);
     }
 
     shoot(eb0: EnemyBullet,
@@ -83,9 +89,9 @@ export class Lv3Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
         eb2: EnemyBullet,
         target: Phaser.Physics.Arcade.Sprite)
     {
-        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(250)
-        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(250)
-        let b2 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(250)
+        let b0 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
+        let b1 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
+        let b2 = new Phaser.Math.Vector2(target.x - this.x, target.y - this.y).setLength(getGameWidth(this.scene) * 0.32)
         b0.setAngle(b0.angle() + 0.4)
         b1.setAngle(b1.angle() - 0.4)
 
@@ -93,13 +99,13 @@ export class Lv3Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
         eb1.setPosition(this.x, this.y);
         eb2.setPosition(this.x, this.y);
 
-        eb0.setScale(3);
-        eb1.setScale(3);
-        eb2.setScale(3);
+        eb0.setDisplaySize(eb0.displayWidth * getGameWidth(this.scene) * 3 / 800, eb0.displayHeight * getGameHeight(this.scene) * 3 / 600);
+        eb1.setDisplaySize(eb1.displayWidth * getGameWidth(this.scene) * 3 / 800, eb1.displayHeight * getGameHeight(this.scene) * 3 / 600);
+        eb2.setDisplaySize(eb2.displayWidth * getGameWidth(this.scene) * 3 / 800, eb2.displayHeight * getGameHeight(this.scene) * 3 / 600);
 
-        eb0.setCircle(this.scale * 4, 0 ,0);
-        eb1.setCircle(this.scale * 4, 0, 0);
-        eb2.setCircle(this.scale * 4, 0, 0);
+        eb0.setCircle(this.scale * getGameWidth(this.scene) / 200, 0 ,0);
+        eb1.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
+        eb2.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
 
         eb0.setVelocity(b0.x, b0.y)
         eb1.setVelocity(b1.x, b1.y)
