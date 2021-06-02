@@ -14,7 +14,7 @@ import { playSound } from 'helpers/hooks/useSound';
 
 const Home = () => {
   const { state: { usersGotchis, contract, address, selectedGotchi }, updateState } = useWeb3();
-  const { highscores, handleSubmitScore } = useFirebase();
+  const { highscores } = useFirebase();
 
   useEffect(() => {
     const _fetchGotchis = async (contract: Contract, address: string) => {
