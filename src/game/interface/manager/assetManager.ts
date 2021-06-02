@@ -30,7 +30,7 @@ export class AssetManager {
             classType: EnemyBullet,
             runChildUpdate: true,
         });
-        enemyBullets.setOrigin(0.5, 1);
+        enemyBullets.setOrigin(0.5);
         return enemyBullets;
     }
 
@@ -40,7 +40,7 @@ export class AssetManager {
             classType: Bullet,
             runChildUpdate: true
         });
-        bullets.setOrigin(0.5, 1);
+        bullets.setOrigin(0.5);
         return bullets;
     }
 

@@ -29,7 +29,6 @@ export class Lv1Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
     {
         ebullet.setPosition(this.x, this.y)
         ebullet.setDisplaySize(ebullet.displayWidth * getGameWidth(this.scene) / 400, ebullet.displayHeight * getGameHeight(this.scene) / 300);
-        ebullet.setCircle(getGameWidth(this.scene) / 200, 0, 0)
         this.scene.physics.moveToObject(ebullet, target, getGameWidth(this.scene) * 0.32)
     }
 
@@ -63,8 +62,8 @@ export class Lv2Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
         eb0.setDisplaySize(eb0.displayWidth * getGameWidth(this.scene) * 3 / 800, eb0.displayHeight * getGameHeight(this.scene) * 3 / 600);
         eb1.setDisplaySize(eb1.displayWidth * getGameWidth(this.scene) * 3 / 800, eb1.displayHeight * getGameHeight(this.scene) * 3 / 600);
 
-        eb0.setCircle(this.scale * getGameWidth(this.scene) / 200, 0 ,0);
-        eb1.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
+        // eb0.setCircle(getGameWidth(this.scene) / 200, 0 ,0);
+        // eb1.setCircle(getGameWidth(this.scene) / 200, 0, 0);
         eb0.setVelocity(b0.x, b0.y)
         eb1.setVelocity(b1.x, b1.y)
     }
@@ -103,9 +102,9 @@ export class Lv3Sushi extends Phaser.Physics.Arcade.Sprite implements sushiTypeT
         eb1.setDisplaySize(eb1.displayWidth * getGameWidth(this.scene) * 3 / 800, eb1.displayHeight * getGameHeight(this.scene) * 3 / 600);
         eb2.setDisplaySize(eb2.displayWidth * getGameWidth(this.scene) * 3 / 800, eb2.displayHeight * getGameHeight(this.scene) * 3 / 600);
 
-        eb0.setCircle(this.scale * getGameWidth(this.scene) / 200, 0 ,0);
-        eb1.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
-        eb2.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
+        // eb0.setCircle(eb0.displayHeight / 2, eb0.displayHeight / 2, eb0.displayHeight / 2);
+        // eb1.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
+        // eb2.setCircle(this.scale * getGameWidth(this.scene) / 200, 0, 0);
 
         eb0.setVelocity(b0.x, b0.y)
         eb1.setVelocity(b1.x, b1.y)
