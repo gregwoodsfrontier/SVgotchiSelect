@@ -1,19 +1,21 @@
 import styles from './styles.module.css';
 import { useState } from 'react';
 import globalStyles from 'theme/globalStyles.module.css';
-import { Click } from 'assets/sounds';
+import { click } from 'assets/sounds';
 import { NavLink } from "react-router-dom";
 import { useWeb3 } from 'web3';
 import { smartTrim } from 'helpers/functions';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { Hamburger, SideTray } from 'components';
+import { playSound } from 'helpers/hooks/useSound';
+
 
 const WalletButton = () => {
   const { state: { address }, connectToNetwork } = useWeb3();
 
   const handleWalletClick = () => {
     if (!address) {
-      Click.play();
+      playSound(click);
       connectToNetwork();
     }
   }
@@ -43,7 +45,7 @@ export const Header = () => {
       <nav className={`${globalStyles.container} ${styles.desktopHeaderContent}`}>
         <ul className={styles.navContainer}>
           <NavLink
-            onClick={() => Click.play()}
+            onClick={() => playSound(click)}
             to="/"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
@@ -55,21 +57,21 @@ export const Header = () => {
             Game
           </NavLink>
           <NavLink
-            onClick={() => Click.play()}
+            onClick={() => playSound(click)}
             to="/leaderboard"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
           >
             Leaderboard
           </NavLink>
-          {/* <NavLink
-            onClick={() => Click.play()}
+          <NavLink
+            onClick={() => playSound(click)}
             to="/settings"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
           >
             Settings
-          </NavLink> */}
+          </NavLink>
         </ul>
         <WalletButton />
       </nav>
@@ -78,7 +80,7 @@ export const Header = () => {
         <SideTray open={menuOpen}>
           <nav>
             <NavLink
-              onClick={() => Click.play()}
+              onClick={() => playSound(click)}
               to="/"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}
@@ -90,21 +92,21 @@ export const Header = () => {
               Game
             </NavLink>
             <NavLink
-              onClick={() => Click.play()}
+              onClick={() => playSound(click)}
               to="/leaderboard"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}
             >
               Leaderboard
             </NavLink>
-            {/* <NavLink
-              onClick={() => Click.play()}
+            <NavLink
+              onClick={() => playSound(click)}
               to="/settings"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}
             >
               Settings
-            </NavLink> */}
+            </NavLink>
             <WalletButton />
           </nav>
         </SideTray>
