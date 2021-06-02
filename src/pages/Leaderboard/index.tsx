@@ -11,7 +11,7 @@ const Leaderboard = () => {
   return (
     <Layout>
       <div className={globalStyles.container}>
-        <LeaderboardComponent highscores={highscores} ownedGotchis={usersGotchis.map(gotchi => gotchi.id)} />
+        <LeaderboardComponent highscores={highscores} ownedGotchis={usersGotchis?.map(gotchi => gotchi.id)} />
       </div>
     </Layout>
   )
