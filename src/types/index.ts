@@ -77,3 +77,11 @@ export interface HighScore {
   score: number,
   name: string,
 }
+
+export interface Web3Error {
+  status: number,
+  error: {
+    message: string,
+    stack: string,
+  }
+}
