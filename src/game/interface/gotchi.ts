@@ -11,7 +11,8 @@ export default class Gotchi extends Phaser.GameObjects.Sprite
     {
         super(scene, x, y, key);
         this.scene.physics.world.enable(this);
-        (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
+        (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true)
+        .setSize(80, 100);
         this.setDisplaySize(this.displayHeight * getGameHeight(scene) / 1200, this.displayHeight * getGameHeight(scene) / 1200);
     }
 

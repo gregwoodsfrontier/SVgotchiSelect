@@ -135,6 +135,7 @@ export class GameScene extends Phaser.Scene {
         this.useBRNTrait(this.gotchi.brn) // using gotchi BRN trait
         this.gotchi.play('idle')
         this.gotchi.setInteractive();
+        
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.fireKey = this.input.keyboard.addKey(
@@ -186,6 +187,8 @@ export class GameScene extends Phaser.Scene {
 
     update() 
     {
+        //this.input.setHitAreaRectangle(this.gotchi,this.gotchi.x, this.gotchi.y, 100, 100)
+
         if (this.state !== GameState.Playing)
         {
             this.escapeTheFud.pause()
