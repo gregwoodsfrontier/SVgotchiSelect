@@ -175,7 +175,7 @@ const Home = () => {
                   playSound(click);
                   setShowRulesModal(true);
                 }}
-                className={`${globalStyles.primaryButton} ${globalStyles.circleButton}`}
+                className={`${globalStyles.secondaryButton} ${globalStyles.circleButton}`}
               >
                 ?
               </button>
