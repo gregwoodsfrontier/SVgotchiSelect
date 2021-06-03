@@ -8,10 +8,11 @@
   right: 0;
   bottom: 0;
   z-index: 10;
+  overflow-y: scroll;
 }
 
 .shadow {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   left:0;
@@ -31,8 +32,7 @@
   background-color: var(--color-dark_1);
   border: 5px solid var(--color-dark_2);
   max-width: 60rem;
-  margin: auto;
-  margin-top: 7.2rem;
+  margin: 7.2rem auto;
   padding: 3.2rem;
   color: white;
 }

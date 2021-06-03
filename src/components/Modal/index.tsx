@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const Modal = ({ active, children, handleClose }: Props) => {
-  console.log('Hello');
   return (
     <div className={`${styles.background} ${active ? styles.open : ''}`}>
       <div className={styles.shadow}>

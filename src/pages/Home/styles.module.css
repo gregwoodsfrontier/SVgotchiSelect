@@ -54,6 +54,38 @@
   margin: 5.4rem 0 2.4rem;
 }
 
+
+.modalContent h1 {
+  font-size: 3.2rem;
+}
+.modalContent h2 {
+  font-size: 2.4rem;
+  margin-top: 3.2rem;
+  margin-bottom: 1.2rem;
+}
+.modalContent h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+.modalContent p {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.enemyRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.enemyRow img {
+  object-fit: contain;
+  margin-right: 2.4rem
+}
+.enemyRow p {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
 @media only screen and (min-width: 768px) {
   .homeContainer {
     grid-template-columns: 3fr 4fr 5fr;
