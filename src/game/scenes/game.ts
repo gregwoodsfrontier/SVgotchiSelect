@@ -96,7 +96,7 @@ export class GameScene extends Phaser.Scene {
         this.scene.sendToBack(SceneKeys.BackGround)
         this.state = GameState.Playing
 
-        this.back = this.sound.add(CLICK, { loop: false });
+        this.back = this.sound.add(CLICK, { loop: false, volume:  Number(window.localStorage.getItem("seVolume") ?? "5") / 10 });
         this.backbutton = this.createBackButton();
         this.backbutton.setVisible(false);
         this.quitGame = false;
@@ -110,7 +110,8 @@ export class GameScene extends Phaser.Scene {
         this.assetManager = new AssetManager(this)
         this.escapeTheFud = this.sound.add(SoundType.EscapeTheFud, {
             loop: true,
-            seek: 118
+            seek: 118,
+            volume: Number(window.localStorage.getItem("musicVolume") || "5") / 10,
         })
         this.escapeTheFud.play()
 
@@ -502,7 +503,7 @@ export class GameScene extends Phaser.Scene {
         explosion.setDisplaySize(explosion.displayWidth * getGameWidth(this) / 800, explosion.displayHeight * getGameHeight(this) / 600)
         explosion.setPosition(_x, _y)
         explosion.play(AnimationType.Kaboom)
-        this.sound.play(SoundType.InvaderKilled)
+        this.sound.play(SoundType.InvaderKilled, { volume:  Number(window.localStorage.getItem("seVolume") ?? "5") / 10 })
         this.time.delayedCall(2000,() => {
             explosion.kill()
         })
@@ -548,7 +549,7 @@ export class GameScene extends Phaser.Scene {
         explosion.setDisplaySize(explosion.displayWidth * getGameWidth(this) / 800, explosion.displayHeight * getGameHeight(this) / 600)
         explosion.setPosition(this.gotchi.x, this.gotchi.y);
         explosion.play(AnimationType.Kaboom);
-        this.sound.play(SoundType.Kaboom)
+        this.sound.play(SoundType.Kaboom, { volume:  Number(window.localStorage.getItem("seVolume") ?? "5") / 10 })
         this.time.delayedCall(2000,() => {
             explosion.kill()
         })
@@ -609,7 +610,7 @@ export class GameScene extends Phaser.Scene {
             let bullet: Bullet = this.assetManager.bullets.get();
             if (bullet) {
                 bullet.shoot(this.gotchi.x, this.gotchi.y - 18);
-                this.sound.play(SoundType.Shoot)
+                this.sound.play(SoundType.Shoot, { volume: Number(window.localStorage.getItem("seVolume") ?? "5") / 10 })
                 this.bulletTime = this.time.now + 400;
             }
         }

@@ -189,10 +189,7 @@ export class BootScene extends Phaser.Scene {
       },
       this,
     );
-
-    this.sound.volume = Number(window.localStorage.getItem("volume") ?? "5") / 10;
     
-    //
     const fonts = new WebFontFile(this.load, 'Press Start 2P')
     this.load.addFile(fonts)
   };
