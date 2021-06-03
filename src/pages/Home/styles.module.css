@@ -28,6 +28,25 @@
   margin-top: 4rem;
 }
 
+.errorContainer {
+  color: white;
+  max-width: 60rem;
+  margin: 5.4rem auto;
+}
+
+.errorContainer h1 {
+  font-size: 5rem;
+  opacity: 0.4;
+}
+
+.errorContainer p {
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+.errorContainer .secondaryErrorMessage {
+  margin: 5.4rem 0 2.4rem;
+}
+
 @media only screen and (min-width: 768px) {
   .homeContainer {
     grid-template-columns: 3fr 4fr 5fr;

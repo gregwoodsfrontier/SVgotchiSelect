@@ -31,35 +31,34 @@ export const DetailsPanel = ({ selectedGotchi }: Props) => {
     )
   }
 
-  if (!selectedGotchi) return <div></div>;
   return (
     <div className={styles.detailsPanel}>
-      <h1>{selectedGotchi.name} ({selectedGotchi.id})</h1>
+      <h1>{selectedGotchi ? `${selectedGotchi?.name} (${selectedGotchi?.id})` : 'Fetching Aavegotchi...'}</h1>
       <hr />
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>⚡️</span> Energy</p>
-        <p>{selectedGotchi.withSetsNumericTraits[0]}</p>
+        <p>{selectedGotchi?.withSetsNumericTraits[0]}</p>
       </div>
-      {renderModifier("Move speed", calculatePercentage(selectedGotchi.withSetsNumericTraits[0]))}
-      {renderModifier("Immunity timer", calculatePercentage(100 - selectedGotchi.withSetsNumericTraits[0]))}
+      {renderModifier("Move speed", calculatePercentage(selectedGotchi?.withSetsNumericTraits[0]))}
+      {renderModifier("Immunity timer", calculatePercentage(100 - selectedGotchi?.withSetsNumericTraits[0]))}
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>👹</span> Aggression</p>
-        <p>{selectedGotchi.withSetsNumericTraits[1]}</p>
+        <p>{selectedGotchi?.withSetsNumericTraits[1]}</p>
       </div>
-      {renderModifier("Fire rate", calculatePercentage(selectedGotchi.withSetsNumericTraits[1]))}
-      {renderModifier("Bullet speed", calculatePercentage(100 - selectedGotchi.withSetsNumericTraits[1]))}
+      {renderModifier("Fire rate", calculatePercentage(selectedGotchi?.withSetsNumericTraits[1]))}
+      {renderModifier("Bullet speed", calculatePercentage(100 - selectedGotchi?.withSetsNumericTraits[1]))}
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>👻</span> Spookiness</p>
-        <p>{selectedGotchi.withSetsNumericTraits[2]}</p>
+        <p>{selectedGotchi?.withSetsNumericTraits[2]}</p>
       </div>
-      {renderModifier("Enemy fire rate", calculatePercentage(selectedGotchi.withSetsNumericTraits[2]))}
-      {renderModifier("Elite spawn rate", calculatePercentage(100 - selectedGotchi.withSetsNumericTraits[2]))}
+      {renderModifier("Enemy fire rate", calculatePercentage(selectedGotchi?.withSetsNumericTraits[2]))}
+      {renderModifier("Elite spawn rate", calculatePercentage(100 - selectedGotchi?.withSetsNumericTraits[2]))}
       <div className={styles.traitRow}>
         <p><span className={styles.emoji}>🧠</span> Brain size</p>
-        <p>{selectedGotchi.withSetsNumericTraits[3]}</p>
+        <p>{selectedGotchi?.withSetsNumericTraits[3]}</p>
       </div>
-      {renderModifier("Enemy bullet speed", calculatePercentage(selectedGotchi.withSetsNumericTraits[3]))}
-      {renderModifier("Enemy accuracy", calculatePercentage(100 - selectedGotchi.withSetsNumericTraits[3]))}
+      {renderModifier("Enemy bullet speed", calculatePercentage(selectedGotchi?.withSetsNumericTraits[3]))}
+      {renderModifier("Enemy accuracy", calculatePercentage(100 - selectedGotchi?.withSetsNumericTraits[3]))}
     </div>
   )
 };

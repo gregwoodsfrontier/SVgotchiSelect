@@ -1,11 +1,11 @@
 import { AavegotchiContractObject, AavegotchiObject } from "types";
-import { Contract, BigNumber } from "ethers";
+import { Contract } from "ethers";
 import { request } from "graphql-request";
 
 const uri = "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-core-matic";
 
 type FetchAavegotchisRes = Promise<
-  { status: 200; data: Array<AavegotchiObject> } | { status: 400; error: any }
+  { status: 200; data: Array<AavegotchiObject> } | { status: 400 | 403; error: any }
 >;
 
 interface QueryResponse {
@@ -32,6 +32,7 @@ export const getAavegotchisForUser = async (
       }
     }
   `
+  let errorStatus: 400 | 403 = 400;
   try {
     const response = await request<QueryResponse>(uri, query);
     console.log(response);
@@ -41,10 +42,12 @@ export const getAavegotchisForUser = async (
       (gotchi) => gotchi.status.toString() === "3"
     );
 
-    if (gotchisOnly.length === 0)
+    if (gotchisOnly.length === 0) {
+      errorStatus = 403;
       throw new Error(
-        "No gotchis found - Please make sure your wallet is connected"
+        "No Aavegotchis found for address - Please make sure the correct wallet is connected."
       );
+    }
 
     const gotchisWithSVGs = await _getAllAavegotchiSVGs(
       gotchisOnly || [],
@@ -56,7 +59,7 @@ export const getAavegotchisForUser = async (
     };
   } catch (error) {
     return {
-      status: 400,
+      status: errorStatus,
       error: error,
     };
   }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Layout, GotchiSelector, DetailsPanel } from 'components';
 import { Link } from "react-router-dom";
 import globalStyles from 'theme/globalStyles.module.css';
@@ -11,18 +11,21 @@ import { bounceAnimation, convertInlineSVGToBlobURL, removeBG } from 'helpers/aa
 import { Contract } from 'ethers';
 import gotchiLoading from 'assets/gifs/loading.gif';
 import { playSound } from 'helpers/hooks/useSound';
+import { Web3Error } from 'types';
 
 const Home = () => {
   const { state: { usersGotchis, contract, address, selectedGotchi }, updateState } = useWeb3();
   const { highscores } = useFirebase();
+  const [ error, setError ] = useState<Web3Error>();
 
   useEffect(() => {
     const _fetchGotchis = async (contract: Contract, address: string) => {
       const res = await getAavegotchisForUser(contract, address);
       if (res.status === 200) {
+        setError(undefined);
         updateState({ usersGotchis: res.data });
       } else {
-        console.log(res.error);
+        setError(res);
       }
     }
 
@@ -43,6 +46,34 @@ const Home = () => {
   const handleSelect = useCallback((gotchi) => {
     updateState({ selectedGotchi: gotchi })
   }, [updateState])
+
+  if (error) {
+    return (
+      <Layout>
+        <div className={globalStyles.container}>
+          <div className={styles.errorContainer}>
+            <h1>Error code: {error.status}</h1>
+            <p>{error.error.message}</p>
+
+            {error.status === 403 &&
+              <div>
+                <p className={styles.secondaryErrorMessage}>
+                  Don’t have an Aavegotchi? Visit the Baazaar to get one.
+                </p>
+                <a
+                  href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
+                  target="__blank"
+                  className={globalStyles.primaryButton}
+                >
+                  Visit Bazaar
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </Layout>
+    )
+  }
 
   return (
     <Layout>
@@ -68,7 +99,11 @@ const Home = () => {
               />
             )}
             <h1 className={styles.highscore}>Highscore: {highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0}</h1>
-            <Link to="/play" className={globalStyles.primaryButton} onClick={() => playSound(send)}>
+            <Link
+              to="/play"
+              className={`${globalStyles.primaryButton} ${!selectedGotchi ? globalStyles.disabledLink : ''}`}
+              onClick={() => playSound(send)}
+            >
               Start
             </Link>
           </div>
