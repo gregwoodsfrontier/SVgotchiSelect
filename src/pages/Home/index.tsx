@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Layout, GotchiSelector, DetailsPanel } from 'components';
+import { Layout, GotchiSelector, DetailsPanel, Modal } from 'components';
 import { Link } from "react-router-dom";
 import globalStyles from 'theme/globalStyles.module.css';
-import { send } from 'assets/sounds';
+import { click, send } from 'assets/sounds';
 import styles from './styles.module.css';
 import { getAavegotchisForUser } from 'web3/actions';
 import { useFirebase } from 'firebase-client';
@@ -17,6 +17,7 @@ const Home = () => {
   const { state: { usersGotchis, contract, address, selectedGotchi }, updateState } = useWeb3();
   const { highscores } = useFirebase();
   const [ error, setError ] = useState<Web3Error>();
+  const [ showRulesModal, setShowRulesModal ] = useState(false);
 
   useEffect(() => {
     const _fetchGotchis = async (contract: Contract, address: string) => {
@@ -54,7 +55,6 @@ const Home = () => {
           <div className={styles.errorContainer}>
             <h1>Error code: {error.status}</h1>
             <p>{error.error.message}</p>
-
             {error.status === 403 &&
               <div>
                 <p className={styles.secondaryErrorMessage}>
@@ -77,6 +77,9 @@ const Home = () => {
 
   return (
     <Layout>
+      <Modal active={showRulesModal} handleClose={() => setShowRulesModal(false)}>
+        <h1>Hello</h1>
+      </Modal>
       <div className={globalStyles.container}>
         <div className={styles.homeContainer}>
           <div className={styles.selectorContainer}>
@@ -99,13 +102,24 @@ const Home = () => {
               />
             )}
             <h1 className={styles.highscore}>Highscore: {highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0}</h1>
-            <Link
-              to="/play"
-              className={`${globalStyles.primaryButton} ${!selectedGotchi ? globalStyles.disabledLink : ''}`}
-              onClick={() => playSound(send)}
-            >
-              Start
-            </Link>
+            <div className={styles.buttonContainer}>
+              <Link
+                to="/play"
+                className={`${globalStyles.primaryButton} ${!selectedGotchi ? globalStyles.disabledLink : ''}`}
+                onClick={() => playSound(send)}
+              >
+                Start
+              </Link>
+              <button
+                onClick={() => {
+                  playSound(click)
+                  setShowRulesModal(true)
+                }}
+                className={`${globalStyles.primaryButton} ${globalStyles.circleButton}`}
+              >
+                ?
+              </button>
+            </div>
           </div>
           <div className={styles.detailsPanelContainer}>
             <DetailsPanel
