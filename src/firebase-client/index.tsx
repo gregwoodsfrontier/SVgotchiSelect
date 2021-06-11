@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { SubmitScoreReq, HighScore } from "types";
 import fb from 'firebase';
+import 'firebase/app-check';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -13,12 +14,12 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
 }
 
-interface FirebaseContext {
+interface IFirebaseContext {
   highscores?: Array<HighScore>,
   handleSubmitScore?: (score: number, gotchiData: SubmitScoreReq) => Promise<Array<HighScore>>
 }
 
-export const FirebaseContext = createContext<FirebaseContext>({});
+export const FirebaseContext = createContext<IFirebaseContext>({});
 
 export const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   // Stored on init
@@ -67,8 +68,13 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
   }
 
   useEffect(() => {
+    // Dont connect to firebase in dev mode
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') return;
+
     if (!firebase) {
       const firebaseInit = fb.initializeApp(firebaseConfig);
+      const appCheck = firebaseInit.appCheck();
+      appCheck.activate(process.env.REACT_APP_FIREBASE_CAPTCHA);
       setFirebase(firebaseInit)
     }
   }, [])
