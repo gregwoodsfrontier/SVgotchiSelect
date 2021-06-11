@@ -21,5 +21,16 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "emulators": {
+    "hosting": {
+      "port": 5000,
+      "host": "0.0.0.0"
+    },
+    "functions": {
+      "name": "functions",
+      "host": "localhost",
+      "port": 5001
+    }
   }
 }
