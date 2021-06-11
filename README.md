@@ -1,6 +1,6 @@
-# Aavegotchi minigame template
+# Sushi Vaders
 
-Preview: https://epic-chandrasekhar-a63ea6.netlify.app
+Preview: https://sushivader.com/
 
 ## Quick notes
 
