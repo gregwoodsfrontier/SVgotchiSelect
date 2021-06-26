@@ -1,0 +1,34 @@
+
+> core-js@2.6.12 postinstall D:\phaser-things\SVgotchiselect_03\node_modules\babel-runtime\node_modules\core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+
+> core-js@3.13.0 postinstall D:\phaser-things\SVgotchiselect_03\node_modules\core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+
+> core-js-pure@3.13.0 postinstall D:\phaser-things\SVgotchiselect_03\node_modules\core-js-pure
+> node -e "try{require('./postinstall')}catch(e){}"
+
+
+> ejs@2.7.4 postinstall D:\phaser-things\SVgotchiselect_03\node_modules\ejs
+> node ./postinstall.js
+
+Thank you for installing [35mEJS[0m: built with the [32mJake[0m JavaScript build tool ([32mhttps://jakejs.com/[0m)
+
++ firebase-functions@3.14.1
+added 337 packages from 200 contributors, removed 354 packages, updated 1509 packages and audited 1852 packages in 1046.263s
+
+164 packages are looking for funding
+  run `npm fund` for details
+
+found 89 vulnerabilities (84 moderate, 5 high)
+  run `npm audit fix` to fix them, or `npm audit` for details

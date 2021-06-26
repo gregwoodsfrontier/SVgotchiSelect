@@ -2,13 +2,13 @@ import Phaser from 'phaser'
 //import WebFontFile from '../scenes/webFontFile'
 //import { AssetType, SoundType } from "../interface/assets";
 import * as KEYS from 'assets';
-import * as SCENEKEYS from './scenekeys';
+import { SceneKeys } from './keys';
 import { getGameWidth, getGameHeight } from '../helpers'
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
     visible: false,
-    key: SCENEKEYS.BACKGROUND,
+    key: SceneKeys.BACKGROUND,
   };
 
 export default class BackGround extends Phaser.Scene
