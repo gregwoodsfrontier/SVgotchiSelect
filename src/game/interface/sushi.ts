@@ -1,5 +1,5 @@
 import { getGameHeight, getGameWidth } from 'game/helpers'
-import { AssetType, SoundType } from './assets'
+import { AssetType } from './assets'
 import { EnemyBullet } from './enemyBullet'
 import { AssetManager } from './manager/assetManager'
 

@@ -38,7 +38,7 @@ export default class TitleScene extends Phaser.Scene
         const sushiVader = this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, 'sushiVader');
         sushiVader.setDisplaySize(sushiVader.displayWidth * getGameWidth(this) / 800, sushiVader.displayHeight * getGameHeight(this) / 600);
 
-        const versionText = this.add.text(getGameWidth(this) / 2, getGameHeight(this) * 0.625, 'V2', retro).setOrigin(0.5, 0);
+        const versionText = this.add.text(getGameWidth(this) / 2, getGameHeight(this) * 0.625, 'V3.1', retro).setOrigin(0.5, 0);
         versionText.setDisplaySize(versionText.displayWidth * getGameWidth(this) / 800, versionText.displayHeight * getGameHeight(this) / 600);
 
 

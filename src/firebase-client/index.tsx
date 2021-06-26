@@ -74,7 +74,8 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
     if (!firebase) {
       const firebaseInit = fb.initializeApp(firebaseConfig);
       const appCheck = firebaseInit.appCheck();
-      appCheck.activate(process.env.REACT_APP_FIREBASE_CAPTCHA);
+      //appCheck.activate(process.env.REACT_APP_FIREBASE_CAPTCHA);
+      appCheck.activate("6Lf461MbAAAAAOkylBTaCmFOpX_lWFTU3pcbQjMc");
       setFirebase(firebaseInit)
     }
   }, [])

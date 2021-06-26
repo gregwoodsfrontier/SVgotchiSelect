@@ -90,6 +90,8 @@ export class SushiManager {
     // get one single random enemy
     getRandomAliveEnemy()
     {   
+        const fireZoneY = getGameHeight(this.scene) * 0.5
+
         let livingSushi = [] as Phaser.Physics.Arcade.Sprite[]
         let sushiSet = [this.lv1sushi.getChildren(),
              this.lv2sushi.getChildren(),
@@ -98,6 +100,12 @@ export class SushiManager {
         {
             for (let j=0; j<sushiSet[i].length; j++)
             {
+                // set a condition that only sushis on top screen can fire
+                if (sushiSet[i][j].body.position.y > fireZoneY)
+                {
+                    continue
+                }
+                
                 livingSushi.push(sushiSet[i][j] as Phaser.Physics.Arcade.Sprite)
             }
         }
@@ -127,7 +135,7 @@ export class SushiManager {
     private sortSushiArmy(_type: number[][])
     {
         let pushedSushi: Phaser.Physics.Arcade.Sprite;
-        let _sushiarmy = new Array;
+        let _sushiarmy = [];
         for (let y = 0; y < _type.length; y++)
         {
             for (let x = 0; x < _type[y].length; x++)
@@ -174,7 +182,7 @@ export class SushiManager {
     spawnSushi(_type: number[])
     {
         let pushedSushi: Phaser.Physics.Arcade.Sprite;
-        let _sushiarmy = new Array;
+        let _sushiarmy = [];
         for (let x = 0; x < _type.length; x++)
         {
             let temp = this.spawnSushiPosX(_type.length)
@@ -219,7 +227,7 @@ export class SushiManager {
                 delay: 0,
                 yoyo: true,
                 repeat: -1,
-                onYoyo: (tween, targets, undefined) => {
+                onYoyo: () => {
                     
                     child.y += this.descend
                 }
