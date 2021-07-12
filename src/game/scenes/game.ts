@@ -33,6 +33,9 @@ export class GameScene extends Phaser.Scene {
     cursors!: Phaser.Types.Input.Keyboard.CursorKeys
     fireKey!: Phaser.Input.Keyboard.Key
     restartKey!: Phaser.Input.Keyboard.Key
+    debugKey!: Phaser.Input.Keyboard.Key
+    isDebugActive = false
+
     assetManager!: AssetManager
     p: Phaser.Input.Pointer;
 
@@ -78,6 +81,9 @@ export class GameScene extends Phaser.Scene {
     // restarting state
     restarting: boolean = false
 
+    // poison state
+    isPoison = false
+
     constructor() {
         super(sceneConfig);
         
@@ -117,9 +123,11 @@ export class GameScene extends Phaser.Scene {
         this.restartKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.D
         )
+        this.debugKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K)
+
         
         // create spawnSushi event
-        /*this.spawnEvent = new Phaser.Time.TimerEvent(
+        this.spawnEvent = new Phaser.Time.TimerEvent(
             {
                 delay: this.sushiManager.spawnTimer,
                 loop: true,
@@ -137,15 +145,36 @@ export class GameScene extends Phaser.Scene {
             }
         )
 
-        this.time.addEvent(this.spawnEvent) */
+        this.time.addEvent(this.spawnEvent)
 
         // for debugging
         this.info = this.add.text(0, 0, '', { color: '#00ff00' } )
         this.p = this.input.activePointer;
+
+        this.debugCall()
+        this.info.setVisible(false)
     }
 
     update() 
     {
+        this.debugCall()
+
+        if(Phaser.Input.Keyboard.JustDown(this.debugKey))
+        {
+            if(!this.isDebugActive)
+            {
+                this.info.setVisible(true)
+                this.isDebugActive = true
+            }
+            else
+            {
+                this.info.setVisible(false)
+                this.isDebugActive = false
+            }
+            
+        }
+
+
         if (this.state !== GameState.Playing)
         {
             this.escapeTheFud.pause()
@@ -213,6 +242,8 @@ export class GameScene extends Phaser.Scene {
         
         this.gotchi.useAGGTrait(this.gotchi.getData('agg') as number)
         this.gotchi.useNRGTrait(this.gotchi.getData('nrg') as number)
+        this.useSPKTrait(this.gotchi.getData('spk') as number)
+        this.useBRNTrait(this.gotchi.getData('brn') as number)
         
         this.gotchi.anims.create({
             key: 'idle',
@@ -309,7 +340,7 @@ export class GameScene extends Phaser.Scene {
 
     private checkToIncreaseFireRate()
     {
-        if (this.scoreManager.score >= 10000)
+        if (this.scoreManager.score >= 10000 && !this.isPoison)
         {
             this.fireDelay = this.lowFireDelay
             this.scoreManager.scoreText.setTint(0xffffb3)
@@ -373,8 +404,13 @@ export class GameScene extends Phaser.Scene {
     private scorePoisoning(score: number)
     {
         console.log('score is poisoned')
+        this.isPoison = true
         this.scoreManager.decreaseScore(score)
+        // set isPoison to false in this function
         this.scoreManager.setScorePoisonText()
+        this.time.delayedCall(2000, () => {
+            this.isPoison = false
+        })
     }
 
     private setOverlapForAll()
