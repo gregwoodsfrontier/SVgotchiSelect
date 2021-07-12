@@ -26,7 +26,7 @@ export class AssetManager {
 
     private _createEnemyBullets(): Phaser.Physics.Arcade.Group {
         let enemyBullets = this._scene.physics.add.group({
-            maxSize: 500,
+            maxSize: -1,
             classType: EnemyBullet,
             runChildUpdate: true,
         });
@@ -36,7 +36,7 @@ export class AssetManager {
 
     private _createBullets(): Phaser.Physics.Arcade.Group {
         let bullets = this._scene.physics.add.group({
-            maxSize: 40,
+            maxSize: -1,
             classType: Bullet,
             runChildUpdate: true
         });

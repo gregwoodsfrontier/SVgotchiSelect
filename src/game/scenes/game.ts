@@ -189,6 +189,8 @@ export class GameScene extends Phaser.Scene {
     {
         //this.input.setHitAreaRectangle(this.gotchi,this.gotchi.x, this.gotchi.y, 100, 100)
 
+        this.input.on('keydown-K', this.debugCall)
+
         if (this.state !== GameState.Playing)
         {
             this.escapeTheFud.pause()
