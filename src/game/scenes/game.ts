@@ -10,7 +10,6 @@ import { Kaboom } from "../interface/kaboom";
 import { ScoreManager } from "../interface/manager/scoreManager";
 import { GameState } from "../interface/gameState";
 import { SceneKeys } from "../consts/SceneKeys";
-import Gotchi from "../interface/gotchi";
 import { AavegotchiGameObject } from 'types';
 import { BACK, CLICK } from 'assets';
 import { getGameWidth, getGameHeight } from "game/helpers";
@@ -24,7 +23,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
     escapeTheFud!: Phaser.Sound.BaseSound
     state!: GameState;
-    gotchi!: Gotchi;
+    gotchi!: Phaser.Physics.Arcade.Sprite;
     animationFactory!: AnimationFactory
     scoreManager!: ScoreManager
     sushiManager!: SushiManager
@@ -55,7 +54,7 @@ export class GameScene extends Phaser.Scene {
 
     // enemy bullet period
     fireDelay = 1500
-    fireDelayModifer = 0.9
+    fireDelayModifer = 0.75
     lowFireDelay = this.fireDelay*this.fireDelayModifer
 
     // immune state of gotchi
@@ -115,26 +114,8 @@ export class GameScene extends Phaser.Scene {
         })
         this.escapeTheFud.play()
 
-        this.gotchi = new Gotchi(this, getGameWidth(this) / 2, getGameHeight(this) * 0.875, this.selectedGotchi?.spritesheetKey as string);
-        this.gotchi.setTraits(
-            this.selectedGotchi?.withSetsNumericTraits[0] as number,
-            this.selectedGotchi?.withSetsNumericTraits[1] as number,
-            this.selectedGotchi?.withSetsNumericTraits[2] as number,
-            this.selectedGotchi?.withSetsNumericTraits[3] as number,
-        )
-        this.gotchi.anims.create({
-            key: 'idle',
-            frames: this.anims.generateFrameNumbers(this.selectedGotchi?.spritesheetKey || "", { start: 0, end: 1 }),
-            frameRate: 2,
-            repeat: -1,
-        });
-        this.add.existing(this.gotchi)
-        this.useNRGTrait(this.gotchi.nrg)  // using gotchi NRG trait
-        this.useAGGTrait(this.gotchi.agg) // using gotchi AGG trait
-        this.useSPKTrait(this.gotchi.spk) // using gotchi SPK trait
-        this.useBRNTrait(this.gotchi.brn) // using gotchi BRN trait
-        this.gotchi.play('idle')
-        this.gotchi.setInteractive();
+        this.createGotchiPlayer();
+
         
 
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -171,19 +152,7 @@ export class GameScene extends Phaser.Scene {
         this.p = this.input.activePointer;
     }
 
-    private createBackButton = () => {
-        const backButton = this.add
-          .image(getGameWidth(this), 0, BACK)
-          .setInteractive({ useHandCursor: true })
-          .setOrigin(1, 0)
-          .setDisplaySize(getGameWidth(this) / 10, getGameWidth(this) / 10)
-          .on('pointerdown', () => {
-            this.quitGame = true;
-            this.back?.play();
-            window.history.back();
-          });
-        return backButton;
-      };
+    
 
     update() 
     {
@@ -246,6 +215,48 @@ export class GameScene extends Phaser.Scene {
             }
             
         }       
+    }
+
+    private createGotchiPlayer()
+    {
+        this.gotchi = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this) * 0.875, 
+        this.selectedGotchi?.spritesheetKey as string)
+        this.gotchi.setData('nrg', this.selectedGotchi?.withSetsNumericTraits[0] as number)
+        this.gotchi.setData('agg', this.selectedGotchi?.withSetsNumericTraits[1] as number)
+        this.gotchi.setData('spk', this.selectedGotchi?.withSetsNumericTraits[2] as number)
+        this.gotchi.setData('brn', this.selectedGotchi?.withSetsNumericTraits[3] as number)
+        this.gotchi.setScale(0.6)
+        this.gotchi.setBodySize(this.gotchi.body.width * 0.55, this.gotchi.body.height * 0.75 )
+        
+        this.gotchi.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers(this.selectedGotchi?.spritesheetKey || "", { start: 0, end: 1 }),
+            frameRate: 2,
+            repeat: -1,
+        });
+        this.add.existing(this.gotchi)
+        this.useNRGTrait(this.gotchi.getData('nrg'))  // using gotchi NRG trait
+        this.useAGGTrait(this.gotchi.getData('agg')) // using gotchi AGG trait
+        this.useSPKTrait(this.gotchi.getData('spk')) // using gotchi SPK trait
+        this.useBRNTrait(this.gotchi.getData('brn')) // using gotchi BRN trait
+        
+        this.gotchi.play('idle')
+        this.gotchi.setInteractive();
+    }
+
+    private createBackButton = () => 
+    {
+        const backButton = this.add
+          .image(getGameWidth(this), 0, BACK)
+          .setInteractive({ useHandCursor: true })
+          .setOrigin(1, 0)
+          .setDisplaySize(getGameWidth(this) / 10, getGameWidth(this) / 10)
+          .on('pointerdown', () => {
+            this.quitGame = true;
+            this.back?.play();
+            window.history.back();
+          });
+        return backButton;
     }
 
     private debugCall2()
@@ -392,23 +403,36 @@ export class GameScene extends Phaser.Scene {
             const child = c as Phaser.Physics.Arcade.Sprite
             if (child.y > yline)
             {
-                this.callGameOver();
+                this.scorePoisoning(50)
+                child.destroy()
+                //this.callGameOver();
             }
         })
         this.sushiManager.lv2sushi.getChildren().forEach(c => {
             const child = c as Phaser.Physics.Arcade.Sprite
             if (child.y > yline)
             {
-                this.callGameOver();
+                this.scorePoisoning(100)
+                child.destroy()
+                //this.callGameOver();
             }
         })
         this.sushiManager.lv3sushi.getChildren().forEach(c => {
             const child = c as Phaser.Physics.Arcade.Sprite
             if (child.y > yline)
             {
-                this.callGameOver();
+                this.scorePoisoning(150)
+                child.destroy()
+                //this.callGameOver();
             }
         })
+    }
+
+    private scorePoisoning(score: number)
+    {
+        console.log('score is poisoned')
+        this.scoreManager.decreaseScore(score)
+        this.scoreManager.setScorePoisonText()
     }
 
     private setOverlapForAll()
@@ -571,6 +595,7 @@ export class GameScene extends Phaser.Scene {
         if (!this.gotchi.active) {
             return;
         }
+
         let eB = [
             this.assetManager.enemyBullets.get(),
             this.assetManager.enemyBullets.get(),

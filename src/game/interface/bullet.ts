@@ -1,4 +1,4 @@
-import { AssetType, SoundType } from "./assets"
+import { AssetType } from "./assets"
 import { getGameHeight, getGameWidth } from 'game/helpers';
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite

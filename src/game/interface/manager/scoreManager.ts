@@ -168,7 +168,7 @@ export class ScoreManager {
       this._scene.registry.set('highscore', this.highScore)
     }
 
-    if (this._scene.registry.get('highscore') != undefined)
+    if (this._scene.registry.get('highscore') !== undefined)
     {
       this.highscoreText.setText(`HIGH:  ${this._scene.registry.get('highscore')}`)
       this._setBigText("GAME OVER", 
@@ -224,5 +224,22 @@ export class ScoreManager {
     this.print();
   }
 
+  decreaseScore(step: number) {
+    this.score = Phaser.Math.Clamp(this.score - step, 0, 999999)
+    this.print();
+  }
+
+  setScorePoisonText()
+  {
+    this._scene.tweens.addCounter({
+      duration: 2000,
+      onStart: () => {
+        this.scoreText.setTint(0xff0000)
+      },
+      onComplete: () => {
+        this.scoreText.setTint(0xffffff)
+      }
+    })
+  }
   
 }
