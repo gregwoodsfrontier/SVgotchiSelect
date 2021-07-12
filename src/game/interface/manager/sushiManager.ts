@@ -38,6 +38,8 @@ export class SushiManager {
     private dy: number;
     descend: number;
     tweenPeriod: number = 1500
+    spawnTimer = this.tweenPeriod * 2
+    spawnDelay = this.tweenPeriod * 2
 
     get noAliveSushis(): boolean {
         let noOfSushi = this.lv1sushi.getChildren().length + 

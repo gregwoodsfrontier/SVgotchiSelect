@@ -180,6 +180,7 @@ export class BootScene extends Phaser.Scene {
       (key: string) => {
         if (key === 'PLAYER') {
           return this.scene.start(SceneKeys.TitleScene, {selectedGotchi: this.gotchi})
+          //return this.scene.start('ui', {selectedGotchi: this.gotchi})
         }
         if (this.loadIndex === assets.length && this.gotchi) {
           this.loadInGotchiSpritesheet(this.gotchi)
