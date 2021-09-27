@@ -38,6 +38,8 @@ export class SushiManager {
     private dy: number;
     descend: number;
     tweenPeriod: number = 1500
+    spawnTimer = this.tweenPeriod * 2
+    spawnDelay = this.tweenPeriod * 2
 
     get noAliveSushis(): boolean {
         let noOfSushi = this.lv1sushi.getChildren().length + 
@@ -58,7 +60,7 @@ export class SushiManager {
 
         this.lv1sushi = this._scene.physics.add.group(
             {
-                maxSize: 40,
+                maxSize: 999,
                 classType: Lv1Sushi,
                 runChildUpdate: true
             }
@@ -67,7 +69,7 @@ export class SushiManager {
         // lv2sushi add group
         this.lv2sushi = this._scene.physics.add.group(
             {
-                maxSize: 40,
+                maxSize: 999,
                 classType: Lv2Sushi,
                 runChildUpdate: true
             }
@@ -76,7 +78,7 @@ export class SushiManager {
         // lv3sushi add group
         this.lv3sushi = this._scene.physics.add.group(
             {
-                maxSize: 40,
+                maxSize: 999,
                 classType: Lv3Sushi,
                 runChildUpdate: true
             }

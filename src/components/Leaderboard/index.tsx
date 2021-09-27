@@ -11,7 +11,7 @@ interface Props {
 
 interface DisplayedScore extends HighScore {
   position: number;
-  exp: number;
+  //exp: number;
 }
 
 export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
@@ -22,7 +22,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
 
   const pageTotal = 50;
   
-  const getExp = (score: number, position: number) => {
+  /* const getExp = (score: number, position: number) => {
     if (position <= 50) {
       return 15;
     }
@@ -33,7 +33,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
       return 5;
     }
     return 0;
-  }
+  } */
 
   useEffect(() => {
     if (onlyMine) {
@@ -52,7 +52,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
         return {
           ...score,
           position: position,
-          exp: getExp(score.score, position),
+          //exp: getExp(score.score, position),
         }
       })
       setSortedScores(hs);
@@ -77,7 +77,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
       <div className={`${styles.row} ${styles.headerRow}`}>
         <div className={styles.cell}>Aavegotchi</div>
         <div className={styles.cell}>Score</div>
-        <div className={styles.cell}>Rewards</div>
+        {/* <div className={styles.cell}>Rewards</div> */}
       </div>
       {displayedScores?.slice(currentPage * pageTotal, currentPage * pageTotal + pageTotal).map(item => {
         return (
@@ -90,7 +90,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
           >
             <div className={styles.cell}>{item.position}. {item.name} [{item.tokenId}]</div>
             <div className={styles.cell}>{item.score}</div>
-            <div className={styles.cell}>{item.exp} EXP</div>
+            {/* <div className={styles.cell}>{item.exp} EXP</div> */}
           </div>
         )
       })}
