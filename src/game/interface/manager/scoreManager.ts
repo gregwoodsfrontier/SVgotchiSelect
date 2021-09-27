@@ -237,7 +237,15 @@ export class ScoreManager {
         this.scoreText.setTint(0xff0000)
       },
       onComplete: () => {
-        this.scoreText.setTint(0xffffff)
+        if (this.score >= 10000)
+        {
+          this.scoreText.setTint(0xffffb3)
+          
+        }
+        else
+        {
+          this.scoreText.setTint(0xffffff)
+        }
       }
     })
   }

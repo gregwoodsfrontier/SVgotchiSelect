@@ -13,6 +13,7 @@ import { SceneKeys } from "../consts/SceneKeys";
 import { AavegotchiGameObject } from 'types';
 import { BACK, CLICK } from 'assets';
 import { getGameWidth, getGameHeight } from "game/helpers";
+import Gotchi from "game/interface/gotchi";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -23,7 +24,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
     escapeTheFud!: Phaser.Sound.BaseSound
     state!: GameState;
-    gotchi!: Phaser.Physics.Arcade.Sprite;
+    gotchi!: Gotchi;
     animationFactory!: AnimationFactory
     scoreManager!: ScoreManager
     sushiManager!: SushiManager
@@ -32,6 +33,9 @@ export class GameScene extends Phaser.Scene {
     cursors!: Phaser.Types.Input.Keyboard.CursorKeys
     fireKey!: Phaser.Input.Keyboard.Key
     restartKey!: Phaser.Input.Keyboard.Key
+    debugKey!: Phaser.Input.Keyboard.Key
+    isDebugActive = false
+
     assetManager!: AssetManager
     p: Phaser.Input.Pointer;
 
@@ -39,11 +43,7 @@ export class GameScene extends Phaser.Scene {
     backbutton: Phaser.GameObjects.Image;
     quitGame: boolean;
 
-    spawnTimer = 3000  // start spawning time later
-    spawnDelay = 3000
     su3marker = 31
-    //fastspawnTimer = 4000  // start spawning time later
-    //fastDescend = 60
 
     // gotchi bullet is affected by aggressiveness
     gShootPeriod = 400 // period for gotchi bullet
@@ -81,6 +81,9 @@ export class GameScene extends Phaser.Scene {
     // restarting state
     restarting: boolean = false
 
+    // poison state
+    isPoison = false
+
     constructor() {
         super(sceneConfig);
         
@@ -100,13 +103,11 @@ export class GameScene extends Phaser.Scene {
         this.backbutton.setVisible(false);
         this.quitGame = false;
 
-
-        this.gotchiSpeed = 0.3125 * getGameWidth(this);
-
         this.animationFactory = new AnimationFactory(this)
         this.scoreManager = new ScoreManager(this)
         this.sushiManager = new SushiManager(this)
         this.assetManager = new AssetManager(this)
+        
         this.escapeTheFud = this.sound.add(SoundType.EscapeTheFud, {
             loop: true,
             seek: 118,
@@ -116,8 +117,6 @@ export class GameScene extends Phaser.Scene {
 
         this.createGotchiPlayer();
 
-        
-
         this.cursors = this.input.keyboard.createCursorKeys();
         this.fireKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.SPACE
@@ -125,13 +124,13 @@ export class GameScene extends Phaser.Scene {
         this.restartKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.D
         )
+        this.debugKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K)
 
-        this.spawnTimer = this.sushiManager.tweenPeriod * 2
-        this.spawnDelay = this.sushiManager.tweenPeriod * 2
+        
         // create spawnSushi event
         this.spawnEvent = new Phaser.Time.TimerEvent(
             {
-                delay: this.spawnTimer,
+                delay: this.sushiManager.spawnTimer,
                 loop: true,
                 callback: () =>
                 {
@@ -148,15 +147,34 @@ export class GameScene extends Phaser.Scene {
         )
 
         this.time.addEvent(this.spawnEvent)
+
+        // for debugging
         this.info = this.add.text(0, 0, '', { color: '#00ff00' } )
         this.p = this.input.activePointer;
-    }
 
-    
+        this.debugCall()
+        this.info.setVisible(false)
+    }
 
     update() 
     {
-        //this.input.setHitAreaRectangle(this.gotchi,this.gotchi.x, this.gotchi.y, 100, 100)
+        this.debugCall()
+
+        if(Phaser.Input.Keyboard.JustDown(this.debugKey))
+        {
+            if(!this.isDebugActive)
+            {
+                this.info.setVisible(true)
+                this.isDebugActive = true
+            }
+            else
+            {
+                this.info.setVisible(false)
+                this.isDebugActive = false
+            }
+            
+        }
+
 
         this.input.on('keydown-K', this.debugCall)
 
@@ -219,14 +237,16 @@ export class GameScene extends Phaser.Scene {
 
     private createGotchiPlayer()
     {
-        this.gotchi = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this) * 0.875, 
-        this.selectedGotchi?.spritesheetKey as string)
-        this.gotchi.setData('nrg', this.selectedGotchi?.withSetsNumericTraits[0] as number)
-        this.gotchi.setData('agg', this.selectedGotchi?.withSetsNumericTraits[1] as number)
-        this.gotchi.setData('spk', this.selectedGotchi?.withSetsNumericTraits[2] as number)
-        this.gotchi.setData('brn', this.selectedGotchi?.withSetsNumericTraits[3] as number)
-        this.gotchi.setScale(0.6)
-        this.gotchi.setBodySize(this.gotchi.body.width * 0.55, this.gotchi.body.height * 0.75 )
+        this.gotchi = new Gotchi(this, getGameWidth(this) / 2, getGameHeight(this) * 0.875, this.selectedGotchi?.spritesheetKey as string)
+        this.gotchi.setTraits(this.selectedGotchi?.withSetsNumericTraits[0] as number,
+            this.selectedGotchi?.withSetsNumericTraits[1] as number,
+            this.selectedGotchi?.withSetsNumericTraits[2] as number,
+            this.selectedGotchi?.withSetsNumericTraits[3] as number)
+        
+        this.gotchi.useAGGTrait(this.gotchi.getData('agg') as number)
+        this.gotchi.useNRGTrait(this.gotchi.getData('nrg') as number)
+        this.useSPKTrait(this.gotchi.getData('spk') as number)
+        this.useBRNTrait(this.gotchi.getData('brn') as number)
         
         this.gotchi.anims.create({
             key: 'idle',
@@ -234,11 +254,8 @@ export class GameScene extends Phaser.Scene {
             frameRate: 2,
             repeat: -1,
         });
+
         this.add.existing(this.gotchi)
-        this.useNRGTrait(this.gotchi.getData('nrg'))  // using gotchi NRG trait
-        this.useAGGTrait(this.gotchi.getData('agg')) // using gotchi AGG trait
-        this.useSPKTrait(this.gotchi.getData('spk')) // using gotchi SPK trait
-        this.useBRNTrait(this.gotchi.getData('brn')) // using gotchi BRN trait
         
         this.gotchi.play('idle')
         this.gotchi.setInteractive();
@@ -265,12 +282,12 @@ export class GameScene extends Phaser.Scene {
         this.info.setText([
             //@ts-ignore
             'NRG trait           : '+ this.gotchi.nrg,
-            'gotchi speed        : '+this.gotchiSpeed,
-            'isStar time         : '+this.IsStarTime,
+            'gotchi speed        : '+this.gotchi.sped,
+            'isStar time         : '+this.gotchi.IsStarTime,
             //@ts-ignore
             'AGG trait           : '+ this.gotchi.agg,
-            'gotchi bullet speed : '+ this.gBulletSpeed,
-            'gotchi bullet period: '+ this.gShootPeriod,
+            'gotchi bullet speed : '+ this.gotchi.gBulletSpeed,
+            'gotchi bullet period: '+ this.gotchi.gShootPeriod,
             //@ts-ignore
             'BRN trait           : '+ this.gotchi.brn,
             'sushi  bullet speed : '+ this.suBullSpeed,
@@ -322,52 +339,11 @@ export class GameScene extends Phaser.Scene {
         //this.suBullSpeed = 250 * (0.9 + modifier) // base 250
         this.suBullAngle2 = 0.25 + modifier // base 0.35
         this.suBullAngle3 = 0.45 + modifier // base 0.55
-    }
-
-    // use AGG to affect gotchi bullet rate and speed
-    private useAGGTrait(_agg: number)
-    {
-        let modifier: number = 1
-        if(_agg <= 1)
-        {
-            modifier = 0.01
-        }
-        else if(_agg >= 100)
-        {
-            modifier = 1
-        }
-        else
-        {
-            modifier = _agg/100
-        }
-        this.gBulletSpeed = 320 + (modifier*80*2) // base: 400
-        this.gShootPeriod = 270 + (modifier*80*2) // base: 350
-    }
-
-    // use NRG to affect the moving speed of gotchi and
-    // immunity time
-    private useNRGTrait(_nrg: number)
-    {
-        let modifier: number
-        if (_nrg <= 1)
-        {
-            modifier = 1
-        }
-        else if (_nrg >= 100)
-        {
-            modifier = 100
-        }
-        else
-        {
-            modifier = _nrg
-        }
-        this.gotchiSpeed = (200 + modifier) * getGameWidth(this) / 800;
-        this.IsStarTime = 2600 - modifier*10 // base is 2100
-    }
+    }    
 
     private checkToIncreaseFireRate()
     {
-        if (this.scoreManager.score >= 10000)
+        if (this.scoreManager.score >= 10000 && !this.isPoison)
         {
             this.fireDelay = this.lowFireDelay
             this.scoreManager.scoreText.setTint(0xffffb3)
@@ -431,8 +407,13 @@ export class GameScene extends Phaser.Scene {
     private scorePoisoning(score: number)
     {
         console.log('score is poisoned')
+        this.isPoison = true
         this.scoreManager.decreaseScore(score)
+        // set isPoison to false in this function
         this.scoreManager.setScorePoisonText()
+        this.time.delayedCall(2000, () => {
+            this.isPoison = false
+        })
     }
 
     private setOverlapForAll()
@@ -486,16 +467,16 @@ export class GameScene extends Phaser.Scene {
             x.push(ans)
         }
         var _c = this.sushiManager.spawnSushi(x)
-        this.spawnTimer = this.time.now + this.spawnTimer
+        this.sushiManager.spawnTimer = this.time.now + this.sushiManager.spawnDelay
         return _c
     }
 
     private _shipKeyboardHandler(_gotchi) {
         _gotchi.body.setVelocity(0, 0)
         if (this.cursors.left.isDown || (this.p.isDown && this.p.x <= getGameWidth(this) / 2)) {
-            _gotchi.body.setVelocityX(-1*this.gotchiSpeed);
+            _gotchi.body.setVelocityX(-1*this.gotchi.sped);
         } else if (this.cursors.right.isDown || (this.p.isDown && this.p.x > getGameWidth(this) / 2)) {
-            _gotchi.body.setVelocityX(this.gotchiSpeed);
+            _gotchi.body.setVelocityX(this.gotchi.sped);
         }
         if (Phaser.Input.Keyboard.JustDown(this.fireKey)) {
             this.IsShooting = !this.IsShooting;
@@ -510,10 +491,10 @@ export class GameScene extends Phaser.Scene {
     private callGameOver()
     {
         this.state = GameState.GameOver;
-        this.backbutton.setVisible(true);
+        
         this.IsShooting = false;
         this.IsStar = false;
-        this.scoreManager.setHighScoreTextLose();
+        
         // this func clear the bullets
         this.assetManager.clearBullets();
         this.gotchi.setActive(false)
@@ -523,6 +504,9 @@ export class GameScene extends Phaser.Scene {
         this.tweens.pauseAll();
         this.physics.pause();
         this.sushiManager.disableAllSushis();
+
+        this.backbutton.setVisible(true);
+        this.scoreManager.setHighScoreTextLose();
         
     }
 
@@ -567,7 +551,7 @@ export class GameScene extends Phaser.Scene {
             live.setActive(false).setVisible(false);
             this.IsStar = true
             this.gotchi.setAlpha(0.5)
-            this.time.delayedCall(this.IsStarTime,() =>
+            this.time.delayedCall(this.gotchi.IsStarTime,() =>
                 {
                     this.IsStar = false
                     this.gotchi.setAlpha(1)
@@ -647,7 +631,10 @@ export class GameScene extends Phaser.Scene {
     }
 
     restart() {
-        if (this.quitGame) return;
+        if (this.quitGame)
+        {
+            return;
+        } 
 
         this.state = GameState.Playing;
         this.backbutton.setVisible(false);

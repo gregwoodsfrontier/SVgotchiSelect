@@ -16,12 +16,7 @@ export default class Preload extends Phaser.Scene
 
         this.load.image(AssetType.Bullet, "/images/bullet.png");
         this.load.image(AssetType.EnemyBullet, "/images/enemy-bullet.png");
-
-        // player animation
-        this.load.spritesheet(AssetType.Gotchi, "/images/gotchiMoves.png", {
-            frameWidth: 32,
-            frameHeight: 53,
-        });
+        
         //sushi animations
         this.load.spritesheet(AssetType.SushiLv1, "/images/sushiLv1Sht.png", {
             frameWidth: 60,

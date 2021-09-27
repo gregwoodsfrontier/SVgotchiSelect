@@ -4,6 +4,7 @@ import {ScoreManager} from '../interface/manager/scoreManager'
 import blinkText from '../interface/blinkText'
 import { SceneKeys } from '../consts/SceneKeys'
 import { getGameWidth, getGameHeight } from "game/helpers";
+import { BACK } from 'assets';
 
 export default class GameOverScene extends Phaser.Scene
 {
@@ -12,6 +13,10 @@ export default class GameOverScene extends Phaser.Scene
     replayText!: Phaser.GameObjects.Text
     //hs = this.registry.get('highscore')
     restartGKey!: Phaser.Input.Keyboard.Key
+
+    public back?: Phaser.Sound.BaseSound;
+    backbutton: Phaser.GameObjects.Image;
+    quitGame: boolean;
 
     create()
     {
@@ -51,7 +56,7 @@ export default class GameOverScene extends Phaser.Scene
             color: "#ffffff"    
         })
 
-        if (this.scoreManager.highScore != undefined)
+        if (this.scoreManager.highScore !== undefined)
         {
             this.highscoreText.setText(`HIGH SCORE: ${this.scoreManager.highScore}`)
         }
@@ -70,5 +75,20 @@ export default class GameOverScene extends Phaser.Scene
             gs.scene.restart();
         }
 
+    }
+
+    private createBackButton = () => 
+    {
+        const backButton = this.add
+          .image(getGameWidth(this), 0, BACK)
+          .setInteractive({ useHandCursor: true })
+          .setOrigin(1, 0)
+          .setDisplaySize(getGameWidth(this) / 10, getGameWidth(this) / 10)
+          .on('pointerdown', () => {
+            this.quitGame = true;
+            this.back?.play();
+            window.history.back();
+          });
+        return backButton;
     }
 }

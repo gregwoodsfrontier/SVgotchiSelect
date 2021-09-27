@@ -46,7 +46,7 @@ export class AssetManager {
 
     private _createExplosions(): Phaser.Physics.Arcade.Group {
         let explosions = this._scene.physics.add.group({
-            maxSize: 50,
+            maxSize: 9999,
             classType: Kaboom,
             runChildUpdate: true
         });

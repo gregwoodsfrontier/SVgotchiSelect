@@ -27,7 +27,7 @@ export const submitScore = functions.https.onCall(
       console.log("Data recieved: ", data);
       const {tokenId, score, name} = data;
 
-      const ref = admin.database().ref("/test/" + tokenId);
+      const ref = admin.database().ref("/fest/" + tokenId);
       const currentSnapshot = await ref.once("value");
       const value = currentSnapshot.val();
       console.log("Current value: ", value);
@@ -51,7 +51,7 @@ export const getHighscoreForTokenId = functions.https.onCall(async (data) => {
   const {tokenId} = data;
   console.log("Retrieving data for: ", tokenId);
 
-  const ref = admin.database().ref("/test/" + tokenId);
+  const ref = admin.database().ref("/fest/" + tokenId);
   const currentSnapshot = await ref.once("value");
   const value = currentSnapshot.val();
   console.log("Current value: ", value);
