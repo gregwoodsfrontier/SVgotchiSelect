@@ -107,6 +107,7 @@ export class GameScene extends Phaser.Scene {
         this.scoreManager = new ScoreManager(this)
         this.sushiManager = new SushiManager(this)
         this.assetManager = new AssetManager(this)
+        
         this.escapeTheFud = this.sound.add(SoundType.EscapeTheFud, {
             loop: true,
             seek: 118,
